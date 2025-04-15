@@ -3,14 +3,28 @@
 import SimpleCard from "@/components/(AdminPanel)/(Card)/SimpleCard/SimpleCard";
 import TopEvents from "@/components/(AdminPanel)/TopSellingEvents/TopEvents";
 import Icons from "@/utilities/icons/icons";
+import { useEffect, useState } from "react";
 import { FaCalendarAlt } from "react-icons/fa";
 
 const Home = () => {
 
-  const products = localStorage.getItem('products');
-  const Users = localStorage.getItem('users');
-  const Orders = localStorage.getItem('orders');
-  const Requested = localStorage.getItem('requested');
+
+  const [Users, setUsers] = useState("0");
+  const [products, setProducts] = useState("0");
+  const [Orders, setOrders] = useState("0");
+  const [Requested, setRequested] = useState("0");
+
+  // useEffect(() => {
+  //   setUsers(localStorage.getItem("users") || "0");
+  //   setProducts(localStorage.getItem("products") || "0");
+  //   setOrders(localStorage.getItem("orders") || "0");
+  //   setRequested(localStorage.getItem("requested") || "0");
+  // }, []);
+
+  // const products = localStorage.getItem('products');
+  // const Users = localStorage.getItem('users');
+  // const Orders = localStorage.getItem('orders');
+  // const Requested = localStorage.getItem('requested');
 
 
   const eventsData = [
