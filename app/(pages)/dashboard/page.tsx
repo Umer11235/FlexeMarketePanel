@@ -13,12 +13,12 @@ const Page = () => {
   const [Orders, setOrders] = useState("0");
   const [Requested, setRequested] = useState("0");
 
-  // useEffect(() => {
-  //   setUsers(localStorage.getItem("users") || "0");
-  //   setProducts(localStorage.getItem("products") || "0");
-  //   setOrders(localStorage.getItem("orders") || "0");
-  //   setRequested(localStorage.getItem("requested") || "0");
-  // }, []);
+  useEffect(() => {
+    setUsers(localStorage.getItem("users") || "0");
+    setProducts(localStorage.getItem("products") || "0");
+    setOrders(localStorage.getItem("orders") || "0");
+    setRequested(localStorage.getItem("requested") || "0");
+  }, []);
 
   const eventsData = [
     {

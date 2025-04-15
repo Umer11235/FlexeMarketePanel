@@ -30,7 +30,7 @@ Object.assign(payload,additionalPayloads);
 
 
       if (['products', 'orders', 'requested', 'users'].includes(action)) {
-        // localStorage.setItem(action, count.toString());
+         localStorage.setItem(action, count.toString());
     }
     return data;
   }
