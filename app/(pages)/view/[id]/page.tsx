@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
-const page = () =>{
+const Page = () =>{
   const params = useParams<{ id: string; }>()
 
   const [orderDetails, setOrderDetails] = useState<any>(null);
@@ -111,4 +111,4 @@ const page = () =>{
   );
 };
 
-export default page;
+export default Page;

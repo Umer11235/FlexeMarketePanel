@@ -6,7 +6,7 @@ import UserList from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterL
 import Popup from "@/components/(AdminPanel)/popup";
 import { useState } from "react";
 
-const page = () => {
+const Page = () => {
   
   const [isPopup, setIsPopup] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -82,4 +82,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

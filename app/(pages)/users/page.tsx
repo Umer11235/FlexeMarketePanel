@@ -21,18 +21,18 @@ const Page = () => {
 
     alert("Delete Confirmed code is Commented " + selectedId);
 
-    // if (!selectedId) return;
-    // const response = await apiService.deleteData(
-    //   "/misc/delete-user",
-    //   selectedId,
-    //   true
-    // );  
+    if (!selectedId) return;
+    const response = await apiService.deleteData(
+      "/misc/delete-user",
+      selectedId,
+      true
+    );  
 
-    // if (response.isSuccess) {
-    //   console.log(response, "Success");
-    // } else {
-    //   console.log("Delete Failed", response?.message || "Unknown Error");
-    // }
+    if (response.isSuccess) {
+      console.log(response, "Success");
+    } else {
+      console.log("Delete Failed", response?.message || "Unknown Error");
+    }
 
   };
 

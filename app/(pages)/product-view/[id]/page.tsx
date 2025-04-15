@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 
 
-const page = () =>{
+const Page = () =>{
   const params = useParams<{ id: string; }>()
 
   const [orderDetails, setOrderDetails] = useState<any>(null);
@@ -101,4 +101,4 @@ const page = () =>{
   );
 };
 
-export default page;
+export default Page;

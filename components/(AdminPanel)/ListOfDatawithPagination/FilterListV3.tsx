@@ -33,17 +33,25 @@ const UserListV3 = <T,>({
 
 
 
-  if(apiVersion==="v2"){
-  useEffect(() => {
-    fetchUsersV2(currentPage);
-  }, [currentPage,filters,itemsPerPagee]);
-  }
-  else{
-    useEffect(() => {
-      fetchUsers(currentPage);
-    }, [currentPage,filters,itemsPerPagee]);
-  }
+  // if(apiVersion==="v2"){
+  // useEffect(() => {
+  //   fetchUsersV2(currentPage);
+  // }, [currentPage,filters,itemsPerPagee]);
+  // }
+  // else{
+  //   useEffect(() => {
+  //     fetchUsers(currentPage);
+  //   }, [currentPage,filters,itemsPerPagee]);
+  // }
   
+
+  useEffect(() => {
+    if (apiVersion === "v2") {
+      fetchUsersV2(currentPage);
+    } else {
+      fetchUsers(currentPage);
+    }
+  }, [currentPage, filters, itemsPerPagee, apiVersion]);
 
 
 const fetchUsersV2=async(page: number)=>{

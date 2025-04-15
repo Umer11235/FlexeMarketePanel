@@ -43,7 +43,7 @@ id: "",
 })
 
 //  for update 
-  const [productList, setProductList] = useState<any[]>([]); // Shared state for products
+  // const [productList, setProductList] = useState<any[]>([]); // Shared state for products
 
 
 //  for update 

@@ -7,6 +7,7 @@ import Pagination from "../pagination/Pagination";
 import { UserListComponentProps } from "./Interfaces/IList";
 import SearchFilters from "@/components/searchFilter/SearchFilter";
 import ClimbingLoader from "react-spinners/ClimbingBoxLoader";
+import Image from "next/image";
 
 
 
@@ -187,7 +188,10 @@ const UserListV2 = <T,>({
                   {column.key === "images" &&
                   Array.isArray(user[column.key]) ? (
                     user[column.key].length > 0 ? (
-                      <img
+                      // <img
+                      <Image
+                        width={100} 
+                        height={100}
                         src={`https://flexemart.com/uploads/${
                           user[column.key][0]?.name
                         }`}

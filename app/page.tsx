@@ -48,7 +48,7 @@ const Home = () => {
       <p className="font-bold pb-3 px-2">Home</p>
 
       <div className="flex flex-wrap w-full">
-        <div className="flex flex-wrap gap-4 w-[50%] w-full justify-between ">
+        <div className="flex flex-wrap gap-4 w-[50%]? w-full justify-between ">
           <SimpleCard
             title="Total Users"
             value={Users? Users:"0"}
@@ -93,11 +93,11 @@ const Home = () => {
       </div>
 
       <div className="flex flex-wrap w-full mt-6 justify-between bottom-2 ">
-        <div className="flex flex-wrap w-[72%] w-full rounded-2xl border-2 overflow-hidden   ">
+        <div className="flex flex-wrap w-[72%]? w-full rounded-2xl border-2 overflow-hidden   ">
           <TopEvents
             title="Comments"
             columns={columns}
-            data={eventsData}
+            data={[]}
             Width="w-full"
           />
         </div>

@@ -1,12 +1,8 @@
 "use client"
 
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import profile from "@/images/user-1.jpg"
+import {  useState } from "react";
 import Icons from "@/utilities/icons/icons";
-import NotificationBar from "../NotificationBar/NotificationBar";
-import { useNotification } from "../NotificationBar/NotificationContext";
 import { useTheme } from "@/components/ThemContext/theme";
 
 interface NavbarProps {

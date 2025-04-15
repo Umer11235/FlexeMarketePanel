@@ -2,16 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import axios from "axios";
 import {Toaster,toast} from 'sonner'
 import {  PromotionZipSchema } from "@/utilities/schema";
-import CommonListV2 from "@/components/(AdminPanel)/ListOfDatawithPagination/CommonListV2";
 import { apiService, askMessagesService, productService } from "@/apies/Services/UserService";
-import Dropdown from "@/components/(AdminPanel)/(Fields)/inputs/Dropdown/Dropdown";
 import Popup from "@/components/(AdminPanel)/popup";
 import CommonListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/CommonListV3";
-import { Item } from "@radix-ui/react-accordion";
 
 
 
@@ -43,7 +38,7 @@ const [initialValues,setInitialValues]=useState<User>({
 })
 
 //  for update 
-  const [productList, setProductList] = useState<any[]>([]); // Shared state for products
+  // const [productList, setProductList] = useState<any[]>([]); // Shared state for products
 
 
 //  for update 
