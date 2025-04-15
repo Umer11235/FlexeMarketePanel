@@ -24,7 +24,7 @@ const Page = () => {
     console.log("Updating with:", values);
     // Call API to update product here if needed
     apiService.postData(
-      "http://localhost:5145/api/Product/update-product/v2" , values,{'Content-Type': 'application/json'},true)
+      "Product/update-product/v2" , values,{'Content-Type': 'application/json'},true)
   };
 
   const handleDelete = (id: string) => {
@@ -35,17 +35,17 @@ const Page = () => {
   const handleDeleteConfirmed = async () => {
     alert("Delete API is commented for ID: " + selectedId);
     // Uncomment and implement API call if needed
-    // if (!selectedId) return;
-    // const response = await apiService.postData(
-    //   "http://localhost:5145/api/Product/delete-product/" + selectedId,
-    //   {},
-    //   true
-    // );
-    // if (response.isSuccess) {
-    //   console.log("Deleted Successfully", response);
-    // } else {
-    //   console.log("Delete Failed", response?.message || "Unknown Error");
-    // }
+    if (!selectedId) return;
+    const response = await apiService.postData(
+      "Product/delete-product/" + selectedId,
+      {},{},
+      true
+    );
+    if (response.isSuccess) {
+      console.log("Deleted Successfully", response);
+    } else {
+      console.log("Delete Failed", response?.message || "Unknown Error");
+    }
   };
   const handleEdit = (id: string, data: any) => {
     setIsModal(true);
@@ -103,7 +103,7 @@ const Page = () => {
       <h2 className="font-bold pb-4 mb-1">Products</h2>
 
       <UserListV3
-        apiEndpoint="/product/search-products"
+        apiEndpoint="product/search-products"
         columns={[
           { key: "images", label: "Image" },
           { key: "name", label: "Name" },
