@@ -11,9 +11,7 @@ import CommonListV2 from "@/components/(AdminPanel)/ListOfDatawithPagination/Com
 import { apiService, askMessagesService } from "@/apies/Services/UserService";
 import { getTypeLabel } from "@/utilities/helpers.ts";
 import Dropdown from "@/components/(AdminPanel)/(Fields)/inputs/Dropdown/Dropdown";
-import ModalV2 from "@/components/(AdminPanel)/modals/modalV2";
 import AssignAttributeValue from "@/components/(pagesComponent)/attributeValue/AssignAttributeValue";
-import { User } from "lucide-react";
 import Popup from "@/components/(AdminPanel)/popup";
 import { ICategoryAttribute } from "@/utilities/interfaces/Pages_Interfaces";
 

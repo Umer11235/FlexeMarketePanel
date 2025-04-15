@@ -2,7 +2,6 @@
 import { apiService } from "@/apies/Services/UserService";
 import UserManagement from "@/components/(AdminPanel)/(Card)/userList/userManage";
 import UserListV2 from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV2";
-import UserList from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV2";
 import Popup from "@/components/(AdminPanel)/popup";
 import { useState } from "react";
 

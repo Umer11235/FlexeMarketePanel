@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import axios from "axios";
 import CommonList from "@/components/(AdminPanel)/ListOfDatawithPagination/CommonList";
 import { initialValues, UserFormValues, validationSchema } from "./IproductUpdate";
