@@ -1,0 +1,249 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body{
+  font-size: 14px;
+}
+
+
+
+
+/* Light Theme */
+body.light {
+  --background-color: #f5f5f5;
+  --text-color: #333333;
+}
+
+/* Dark Theme */
+body.dark {
+  --background-color: #2e2e2e;
+  --text-color: #e0e0e0;
+}
+
+/* Common styles for the layout */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+
+
+/* @layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+} */
+
+.sub-menu {
+  overflow: hidden;
+  transition: height 300ms;
+}
+
+
+
+
+
+
+
+
+ul.Bullets_style {
+  list-style-type: none; /* Remove the default bullets */
+  padding-left: 20px; /* Adjust the padding as needed */
+}
+
+ul.Bullets_style li {
+  position: relative; /* Position relative for the pseudo-element */
+  margin-bottom: 8px; /* Space between list items */
+}
+
+ul.Bullets_style li::before {
+  content: ''; /* No text content, just a shape */
+  position: absolute;
+  left: -25px; /* Position the bullet to the left of the text */
+  top: 0; /* Adjust vertically to align with text */
+  width: 18px; /* Set the width of the custom bullet */
+  height: 18px; /* Set the height of the custom bullet */
+  background-color: #E3F5FF; /* Set the color of the bullet */
+  border-radius: 30%; /* Make it circular */
+
+}
+
+ul.style2 li::before {
+ 
+  
+
+  background-color: #bcc2c5!important; /* Set the color of the bullet */
+  border-radius: 50%!important; /* Make it circular */
+
+}
+
+
+
+.SideNav{
+  height: 750px;
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  background: #36536c;
+  border-radius: 0px 20% 20% 0px;
+  max-height: 100%;
+  max-width: 100%;
+  color: white;
+  font-weight: 500;
+}
+
+.sideNavTop {
+  display: flex;
+  padding: 20px;
+  box-sizing: border-box;
+  /* border: 2px solid black; */
+  align-items: center;
+}
+
+.SideNavMenu {
+  display: flex;
+  flex-direction: column;
+  /* border: solid; */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.SideNavMenu>ul{
+color: white;
+
+
+}
+
+.SideNavMenu>ul li{
+
+  padding: 20px;
+}
+
+.TopNav{
+
+  width: 100%;
+  height: 200px;
+  border: black solid 1px;
+
+}
+
+
+.custom-tooltip {
+  border: 3px dotted red;
+  padding: 0px 10px;
+}
+
+
+/* //for check icon  */
+
+input[type="checkbox"]:checked {
+  background-color: #13181f; /* Tailwind's bg-gray-700 */
+  border-color: #141a22; /* Tailwind's border-gray-800 */
+}
+
+input[type="checkbox"]:checked::after {
+  content: '✔'; /* Unicode checkmark character */
+  color: white;
+  display: block;
+  font-size: 14px;
+  position: relative;
+  top: -2px;
+  left: 2px;
+}
+
+/* For Webkit browsers */
+::-webkit-scrollbar {
+  width: 15px; /* Scrollbar width */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Scrollbar color */
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8c1ae; /* Hover color */
+}
+
+
+
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
