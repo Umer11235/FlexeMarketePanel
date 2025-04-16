@@ -10,6 +10,7 @@ import CommonListV2 from "@/components/(AdminPanel)/ListOfDatawithPagination/Com
 import { apiService, askMessagesService, productService } from "@/apies/Services/UserService";
 import Dropdown from "@/components/(AdminPanel)/(Fields)/inputs/Dropdown/Dropdown";
 import Popup from "@/components/(AdminPanel)/popup";
+import { useAuthRedirect } from "@/utilities/Authentication";
 
 
 interface IUserFormValues {
@@ -33,6 +34,10 @@ interface User {
 
 
 const Page =  () => {
+
+  if (useAuthRedirect()) return null;
+  
+
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");

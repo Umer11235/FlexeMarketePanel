@@ -5,9 +5,13 @@ import UserListV2 from "@/components/(AdminPanel)/ListOfDatawithPagination/Filte
 import UserList from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV2";
 import UserListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV3";
 import Popup from "@/components/(AdminPanel)/popup";
+import { useAuthRedirect } from "@/utilities/Authentication";
 import { useState } from "react";
 
 const Page = () => {
+
+  if (useAuthRedirect()) return null;
+  
   const [isPopup, setIsPopup] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 

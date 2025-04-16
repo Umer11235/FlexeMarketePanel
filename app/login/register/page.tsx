@@ -4,13 +4,13 @@ import Button from "@/components/(AdminPanel)/(Fields)/inputs/Button/Button";
 import Textbox from "@/components/(AdminPanel)/(Fields)/inputs/TextBox/Textbox";
 
 
-const Page1=()=>{
+const Page=()=>{
 
     return(<>
     <div className=" p-5 flex flex-col gap-5 border-2 m-auto ">
-<h2 className="text-3xl font-bold">Welcome Back 👋</h2>
-<p>Today is a new day. Its your day. You shape it. </p>
-<p>Sign in to start managing your projects.</p>
+<h2 className="text-3xl font-bold">Sign Up</h2>
+<p>Today is a new day. It's your day. You shape it. </p>
+<p>Sign in to start managing your Attendance</p>
 
 <Textbox
        SetWidth="max-w-96 w-full"
@@ -40,7 +40,6 @@ const Page1=()=>{
     Sign In
 </Button>
 
-<p className="text-gray-400 mt-24 text-center">© 2024 ALL RIGHTS RESERVED</p>
 
 
     </div>
@@ -48,4 +47,4 @@ const Page1=()=>{
     </>)
 }
 
-export default Page1;
+export default Page;

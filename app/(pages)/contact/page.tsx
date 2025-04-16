@@ -3,11 +3,13 @@ import { apiService } from "@/apies/Services/UserService";
 import UserManagement from "@/components/(AdminPanel)/(Card)/userList/userManage";
 import UserListV2 from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV2";
 import Popup from "@/components/(AdminPanel)/popup";
+import { useAuthRedirect } from "@/utilities/Authentication";
 import { useState } from "react";
 
 
 const Page = () => {
 
+  if (useAuthRedirect()) return null;
 
   const [isPopup, setIsPopup] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);

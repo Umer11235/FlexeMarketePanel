@@ -4,9 +4,13 @@ import userService, { apiService } from "@/apies/Services/UserService";
 import UserListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV3";
 import Popup from "@/components/(AdminPanel)/popup";
 import ModalForm from "@/components/(pagesComponent)/modalForm";
+import { useAuthRedirect } from "@/utilities/Authentication";
 import { useMemo, useState } from "react";
 
 const Page = () => {
+  if (useAuthRedirect()) return null;
+
+
   const [isPopup, setIsPopup] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isModal, setIsModal] = useState(false);

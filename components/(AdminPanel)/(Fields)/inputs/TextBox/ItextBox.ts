@@ -5,5 +5,6 @@ interface ITextbox {
     SetWidth:string;
     SetMargin?:string;
     Flex?:string;
+    value?:string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   }

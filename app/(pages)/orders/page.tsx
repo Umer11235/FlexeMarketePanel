@@ -2,11 +2,15 @@
 import { apiService } from "@/apies/Services/UserService";
 import UserListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV3";
 import Popup from "@/components/(AdminPanel)/popup";
+import { useAuthRedirect } from "@/utilities/Authentication";
 import { useState } from "react";
 import { toast, Toaster } from "sonner";
 
 
 const Page = () => {
+
+  useAuthRedirect(); 
+
 
 const [isPopup, setIsPopup] = useState(false);
 const [selectedId, setSelectedId] = useState<string | null>(null);

@@ -7,6 +7,7 @@ import {  PromotionZipSchema } from "@/utilities/schema";
 import { apiService, askMessagesService, productService } from "@/apies/Services/UserService";
 import Popup from "@/components/(AdminPanel)/popup";
 import CommonListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/CommonListV3";
+import { useAuthRedirect } from "@/utilities/Authentication";
 
 
 
@@ -20,6 +21,11 @@ interface User {
 
 
 const Page =  () => {
+
+  if (useAuthRedirect()) return null;
+
+  
+
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
