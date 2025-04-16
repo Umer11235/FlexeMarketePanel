@@ -24,7 +24,6 @@ interface User {
 
 
 const Page =  () => {
-  if (useAuthRedirect()) return null;
 
   
   const [loading, setLoading] = useState(false);
@@ -153,6 +152,9 @@ setData((prev)=>[...prev,response.data])
       setLoading(false);
     }
   };
+
+  if (useAuthRedirect()) return null;
+
 
   return (
     <div className="w-full">

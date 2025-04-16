@@ -9,7 +9,7 @@ const Page=()=>{
     return(<>
     <div className=" p-5 flex flex-col gap-5 border-2 m-auto ">
 <h2 className="text-3xl font-bold">Sign Up</h2>
-<p>Today is a new day. It's your day. You shape it. </p>
+<p>Today is a new day. Its your day. You shape it. </p>
 <p>Sign in to start managing your Attendance</p>
 
 <Textbox

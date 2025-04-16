@@ -8,7 +8,6 @@ import { useAuthRedirect } from "@/utilities/Authentication";
 import { useMemo, useState } from "react";
 
 const Page = () => {
-  if (useAuthRedirect()) return null;
 
 
   const [isPopup, setIsPopup] = useState(false);
@@ -92,6 +91,9 @@ const Page = () => {
   const onView = (id: string) => {
     return `/product-view/${id}`;
   };
+
+  if (useAuthRedirect()) return null;
+
 
   return (
     <div>

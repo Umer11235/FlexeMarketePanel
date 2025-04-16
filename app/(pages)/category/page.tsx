@@ -35,7 +35,6 @@ interface User {
 
 const Page =  () => {
 
-  if (useAuthRedirect()) return null;
   
 
   const [loading, setLoading] = useState(false);
@@ -192,6 +191,9 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
       setLoading(false);
     }
   };
+
+  if (useAuthRedirect()) return null;
+
 
   return (
     <div className="w-full">

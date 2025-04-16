@@ -8,7 +8,7 @@ import { useAuthRedirect } from "@/utilities/Authentication";
 import { useState } from "react";
 
 const Page = () => {
-    if (useAuthRedirect()) return null;
+ 
   
   const [isPopup, setIsPopup] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -45,7 +45,8 @@ const Page = () => {
   };
 
 
-
+  const isAuthenticated  = useAuthRedirect();
+  if (isAuthenticated) return null;
   
   return (
     <>

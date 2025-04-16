@@ -35,7 +35,7 @@ const initialValues = {
     if (token) {
       router.push('/'); // already logged in
     }
-  }, []);
+  }, [router]);
 
   const handleSubmit = async (values:any) => {
     setLoading(true);
@@ -72,7 +72,7 @@ const initialValues = {
     
       <div className=" p-5 flex flex-col gap-5 border-2 m-auto ">
         <h2 className="text-3xl font-bold">Welcome Back 👋</h2>
-        <p>Today is a new day. It's your day. You shape it. </p>
+        <p>Today is a new day. Its your day. You shape it. </p>
         <p>Sign in to start managing your Attendance</p>
 
         {/* Formik Component */}
