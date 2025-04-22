@@ -66,6 +66,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       valueType: updatedData.valueType,
       categoryId: id,
       id: idd,
+      markForVariant: updatedData.markForVariant,
     });
 
     setIsEditing(true);
