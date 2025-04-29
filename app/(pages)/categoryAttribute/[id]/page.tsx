@@ -14,6 +14,8 @@ import Dropdown from "@/components/(AdminPanel)/(Fields)/inputs/Dropdown/Dropdow
 import AssignAttributeValue from "@/components/(pagesComponent)/attributeValue/AssignAttributeValue";
 import Popup from "@/components/(AdminPanel)/popup";
 import { ICategoryAttribute } from "@/utilities/interfaces/Pages_Interfaces";
+import Icons from "@/utilities/icons/icons";
+import CommonListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/CommonListV3";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -194,6 +196,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                     type="text"
                     id="name"
                     name="name"
+                    placeholder="Enter Name of Attribute Ex: Model,Size,Battery,Color"
                     className="border rounded w-full p-2"
                   />
 
@@ -213,6 +216,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                     type="text"
                     id="sort"
                     name="placeholder"
+                    placeholder="Enter Placeholder of Attribute Ex: Model,Size,Battery,Color"
                     className="border rounded w-full p-2"
                   />
                   <ErrorMessage
@@ -310,9 +314,9 @@ const Page = ({ params }: { params: { id: string } }) => {
           </Formik>
         </div>
         <div className="w-[60%]">
-          <CommonListV2<ICategoryAttribute>
+          <CommonListV3<ICategoryAttribute>
             key={refreshKey}
-            apiEndpoint={`/Modified/getAllCategoriesById?id=` + id}
+            apiEndpoint={`/Modified/getAllCategoriesById/v2?id=` + id}
             columns={[
               { key: "name", label: "Name" },
               { key: "markForVariant", label: "Variant" },
@@ -339,7 +343,22 @@ const Page = ({ params }: { params: { id: string } }) => {
             // onView={onView}
             onEdit={onEdit}
             onDelete={handleDeleteConfirmation}
-            onSetValue={handleSetValue}
+            // onSetValue={handleSetValue}
+
+            attributesColumn={{
+              header: "Assign Value",
+              render: (id: string) => (
+                <button
+                  onClick={() => handleSetValue(id)}
+                  className="text-purple-500 hover:text-purple-700"
+                >
+                  <Icons icon="update" />
+                </button>
+              ), 
+             }}
+
+  filtersPatterns={[{name:"name",type:"text",placeholder:"Name"},{ name: "type",type:"select", placeholder:"Type",options:[{key:"Dropdown",value:"1"},{key:"Checkbox",value:"2"},{key:"Radio button",value:"3"},{key:"Textbox",value:"4"}]}]}
+
           />
 
           <AssignAttributeValue

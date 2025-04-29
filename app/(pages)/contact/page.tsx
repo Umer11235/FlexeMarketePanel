@@ -2,6 +2,7 @@
 import { apiService } from "@/apies/Services/UserService";
 import UserManagement from "@/components/(AdminPanel)/(Card)/userList/userManage";
 import UserListV2 from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV2";
+import UserListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV3";
 import Popup from "@/components/(AdminPanel)/popup";
 import { useAuthRedirect } from "@/utilities/Authentication";
 import { useState } from "react";
@@ -61,8 +62,8 @@ const Page = () => {
       /> 
 <h2 className="font-bold pb-4 mb-1">Contacts</h2>
 
-      <UserListV2
-        apiEndpoint="https://flexemart.com/api/misc/all-contacts"
+      <UserListV3
+        apiEndpoint="misc/all-contacts/v2"
         columns={ [
           { key: "name", label: "Name" },
           { key: "email", label: "Email" },
@@ -73,6 +74,10 @@ const Page = () => {
         ]}
         itemsPerPage={10}
         Action="contacts"
+        filterss={[
+          {name: "name", type: "text", placeholder: "Search by Name"},
+          {name: "email", type: "text", placeholder: "Search by Email"},
+        ]}
       />
     </div>        
     )

@@ -3,6 +3,7 @@
 import { apiService } from "@/apies/Services/UserService";
 import UserListV2 from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV2";
 import UserList from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV2";
+import UserListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV3";
 import Popup from "@/components/(AdminPanel)/popup";
 import { useAuthRedirect } from "@/utilities/Authentication";
 import { useState } from "react";
@@ -62,12 +63,13 @@ const Page = () => {
 <h2 className="font-bold pb-4 mb-1">Requested Users</h2>
 
 
-<UserListV2
+<UserListV3
         apiEndpoint="https://flexemart.com/api/AffiliationDocument/Requested-Users"
         columns={ [
           // { key: "profile", label: "Image" },
           { key: "name", label: "Name" },
           { key: "email", label: "Email" },
+          { key: "phoneNumber", label: "phone Number" },
           { key: "isVendor", label: "Vendor" },
           { key: "isVerifiedVendor", label: "Verified Vendor" },
           // { key: "affiliationStatus", label: "Affiliation Status" },
@@ -75,10 +77,12 @@ const Page = () => {
         ]}
         itemsPerPage={10}
         // Action="requested"
-        onView={onView}
+        // onView={onView}
         // onDelete={handleDelete}
         // onEdit={handleEdit}
-
+filterss={[{name:"name", type:"text", placeholder:"Search by Name"},
+{name:"email", type:"text", placeholder:"Search by Email"}, 
+{name:"phoneNumber", type:"text", placeholder:"Search by Phone Number"}]}
       />
 
     </>

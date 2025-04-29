@@ -2,6 +2,7 @@ import * as Yup from "yup";
 
 
 export interface UserFormValues {
+  id?: string;
     messsage: string;
   
   }

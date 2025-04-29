@@ -83,6 +83,14 @@ export interface Column {
     onDelete?:(id:string)=>void;
     onSetValue?:(id:string)=>void;
     deleteApi?: string;
-    payload?: any;
+    payloads?: any;
+    attributesColumn?: {
+      header: string;
+      render?: (id: string) => React.ReactNode;
+      
+    };
+
+    bgColor?: string;
+    filtersPatterns?:ISearchFiltersFields["filters"];
   }
   

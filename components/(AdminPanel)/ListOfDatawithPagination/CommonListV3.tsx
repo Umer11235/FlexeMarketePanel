@@ -1,65 +1,160 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CommonPagination from "../pagination/CommonPagination/Pagination";
 import Link from "next/link";
 import useFetchData from "./CustomHook";
 import Icons from "@/utilities/icons/icons";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import { CommonListPropsV2 } from "./Interfaces/IList";
+import SearchFilters from "@/components/searchFilter/SearchFilter";
 
-const CommonListV3 = <T extends { id: string; type?: number }>(
-  {
-    apiEndpoint,
-    columns,
-    sharedList,
-    onListChange,
-    onView,
-    onDelete,
-    onEdit,
-    onSetValue,
-    payload,
-  }: CommonListPropsV2<T>
-) => {
 
-    const { data, loading, error } = useFetchData<T>(
-        apiEndpoint,
-        sharedList,
-        payload
-      );
-    
-      console.log("data", data);
-        console.log("loading", loading);
-        console.log("error", error);
+const CommonListV3 = <T extends { id: string; type?: number }>({
+  apiEndpoint,
+  columns,
+  sharedList,
+  onListChange,
+  onView,
+  onDelete,
+  onEdit,
+  onSetValue,
+  payloads,
+  attributesColumn,
+  bgColor,
+  filtersPatterns,
+}: CommonListPropsV2<T>) => {
 
-  const hasPaginationFromPayload =
-    payload?.pageSize !== undefined && payload?.pageNumber !== undefined;
 
-  const [currentPage, setCurrentPage] = useState<number>(
-    hasPaginationFromPayload ? payload.pageNumber : 1
-  );
-  const [pageSize, setPageSize] = useState<number>(
-    hasPaginationFromPayload ? payload.pageSize : 10
-  );
 
-  useEffect(() => {
-    if (hasPaginationFromPayload) {
-      setCurrentPage(payload.pageNumber);
-      setPageSize(payload.pageSize);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(10);
+  
+  // for filtersss
+    const [filters, setFilters] = useState<Record<string, any>>({});
+    const [isOpenFilter,setOpenFilter]=useState(false)
+    const [searchTerm, setSearchTerm] = useState("");
+
+
+
+
+  const handleDelete = (id: string) => {
+    if (onDelete) {
+      onDelete(id);
     }
-  }, [payload]);
+  };
 
+  const handleEdit = (id: string, item: T) => {
+    if (onEdit) {
+      onEdit(id, item);
+    }
+  };
+
+  const handleSetValue = (id: string) => {
+    if (onSetValue) {
+      onSetValue(id);
+    }  
+};
+
+  const { data, loading, error,fetchData } = useFetchData<T>(
+    apiEndpoint,
+    sharedList,
+    {...filters,...payloads}
+  );
+
+
+
+  useEffect(()=>{
+  fetchData();
+  },[filters])
+
+
+
+
+  
   const startIndex = (currentPage - 1) * pageSize;
-  const currentData = hasPaginationFromPayload
-    ? data // backend handled
-    : data.slice(startIndex, startIndex + pageSize); // frontend paginated
+  const currentData = data.slice(startIndex, startIndex + pageSize);
 
   const handlePageChange = (page: number) => setCurrentPage(page);
   const handlePageSizeChange = (size: number) => {
     setPageSize(size);
     setCurrentPage(1);
   };
+  
+
+
+
+
+  const handleApplyFilters = (filterValues: Record<string, any>) => {
+   
+    setFilters({ ...filterValues });
+ 
+  };
+
+  const handleResetFilters = () => {
+
+  setFilters({});
+
+
+  };
 
   return (
     <div className="relative overflow-x-auto py-2 sm:rounded-lg">
+{filtersPatterns&&(
+
+
+
+<div
+          className={`flex justify-between p-3 mb-2 ${
+            bgColor ? bgColor : "bg-slate-200"} w-full rounded-lg`}>
+
+          <div className="flex items-end">
+            <ul className="flex gap-4 m-auto">
+              <li onClick={() => setOpenFilter(!isOpenFilter)}>
+                {" "}
+                <Icons icon="FunnelSimple" />
+              </li>
+            </ul>
+          </div>
+
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1); // Reset to first page on search
+            }}
+            className="w-60 border rounded-lg px-2 py-1"
+          />
+        </div>
+
+)}
+
+  {/* Search Filters */}
+
+        <div
+          className={`${isOpenFilter?"":"hidden"} flex gap-2 p-3 mb-2 ${
+            bgColor ? bgColor : "bg-slate-200"} w-full rounded-lg`}>
+
+
+
+
+{isOpenFilter && (
+        <SearchFilters
+          filters={filtersPatterns?filtersPatterns:[]}
+          onApply={handleApplyFilters}
+          onReset={handleResetFilters}
+        />
+      )}
+
+
+
+      </div>
+
+
+
+
+
+      {(sharedList ===undefined|| error===null) && <p className="text-red-500">{error}</p>}
       {loading ? (
         <ClimbingBoxLoader
           color="#5b909b"
@@ -80,8 +175,17 @@ const CommonListV3 = <T extends { id: string; type?: number }>(
                 </th>
               ))}
               <th scope="col" className="px-4 py-2">
-                Actions
+              {(onView || onEdit || onDelete) && "Actions"}
+
               </th>
+
+              {/* <th scope="col" className="px-4 py-2">
+                Attributes
+              </th> */}
+
+{attributesColumn && (
+      <th className="px-4 py-2">{attributesColumn.header}</th>
+    )}
             </tr>
           </thead>
           <tbody>
@@ -89,6 +193,7 @@ const CommonListV3 = <T extends { id: string; type?: number }>(
               <tr key={item.id} className="bg-white border-b hover:bg-gray-50">
                 {columns.map((column) => (
                   <td key={column.key.toString()} className="px-4 py-2 ">
+                    {/* {item[column.key]?.toString()} */}
                     {column.render
                       ? column.render(item[column.key], item)
                       : item[column.key]?.toString()}
@@ -120,7 +225,7 @@ const CommonListV3 = <T extends { id: string; type?: number }>(
                   )}
 
                   {onSetValue &&
-                    [1, 2, 3].includes(item.type ?? 0) && (
+                    [1, 2, 3].includes(item.type ?? 0) && ( // <-- Type check added
                       <button
                         onClick={() => onSetValue(item.id)}
                         className="text-purple-500 hover:text-purple-700 ml-2"
@@ -129,22 +234,30 @@ const CommonListV3 = <T extends { id: string; type?: number }>(
                       </button>
                     )}
                 </td>
+
+                {attributesColumn && (
+ <td className="px-4 py-2">
+                   
+
+ { [1, 2, 3].includes(item.type ?? 0) && ( 
+  attributesColumn.render?.(item.id)
+  )}
+                    
+</td>
+)}
               </tr>
             ))}
           </tbody>
         </table>
       )}
-
-      {/* Show pagination only if needed */}
-      {(!hasPaginationFromPayload || data.length > pageSize) && (
-        <CommonPagination
-          currentPage={currentPage}
-          totalItems={data.length}
-          pageSize={pageSize}
-          onPageChange={handlePageChange}
-          onPageSizeChange={handlePageSizeChange}
-        />
-      )}
+      <CommonPagination
+        currentPage={currentPage}
+        totalItems={data.length}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+        onPageSizeChange={handlePageSizeChange}
+  
+      />
     </div>
   );
 };

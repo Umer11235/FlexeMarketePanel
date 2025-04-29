@@ -1,13 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import {Toaster,toast} from 'sonner'
-import {  PromotionZipSchema } from "@/utilities/schema";
-import { apiService, askMessagesService, productService } from "@/apies/Services/UserService";
+import { apiService } from "@/apies/Services/UserService";
+import UserListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV3";
 import Popup from "@/components/(AdminPanel)/popup";
-import CommonListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/CommonListV3";
 import { useAuthRedirect } from "@/utilities/Authentication";
+import { useEffect, useState } from "react";
+import { toast, Toaster } from "sonner";
 
 
 
@@ -17,213 +15,113 @@ interface User {
   guid: string;
 
 }
+const Page = () => {
 
-
-
-const Page =  () => {
-
- 
   
-
+  const [isPopup, setIsPopup] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedType, setSelectedType] = useState<number>(1);
+  const [data, setData] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [refreshKey, setRefreshKey] = useState(0);
-const [onEditing,setOnEditing]=useState(false)
-const [isEditing,setIsEditing]=useState(false)
-const [selectedId,setSelectedId]=useState<string|null>(null)
-const [isOpen,setIsOpen]=useState(false)
-const [data, setData] = useState<User[]>([]);
-const [selectedType, setSelectedType] = useState<number>(1);
 
-const [initialValues,setInitialValues]=useState<User>({
-  id: "",
-  zip: "",
-  guid: "",
-})
+  
+  
 
-//  for update 
-  // const [productList, setProductList] = useState<any[]>([]); // Shared state for products
-
-
-//  for update 
-
-// alert(selectedType)
-
+  
   useEffect(() => {
-      fetchData(selectedType);
-  
-    
-  }, [selectedType]);
-
-  const fetchData = async (type: number) => {
-    setLoading(true);
-    try {
-      const response = await apiService.fetchData("/PromotionZip",{},true);
-      setData(response.data);
-    } catch (err) {
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
- 
-  const handleDeleteConfirmation = async (id: string) => {
-    setSelectedId(id); 
-    setIsOpen(true);   
-  };
-
-  const handleDelete= async()=>{
-  // alert(selectedId)
-    try {
-      if (!selectedId) return;
-      const response= await askMessagesService.deleteMessage("/PromotionZip", selectedId); 
-   
-      if(response.isSuccess){
-        setRefreshKey((prev)=>prev + 1);
-        setData(data.filter((Item)=>Item.id !== selectedId))
-        toast.error("Successfully Deleted")
-     
-      }
-   
-     } catch (error) {
-       console.error("Error deleting product:", error);
-     }
-  }
+    fetchData(selectedType);
 
   
-  const handleEdit=(id:string,updatedData:User)=>{
-    setOnEditing(true)
-    setInitialValues({
-      guid:updatedData.guid,
-      zip:updatedData.zip,
-      id:updatedData.id,
- 
-    })
-    setIsEditing(true)
+}, [selectedType]);
+
+const fetchData = async (type: number) => {
+  setLoading(true);
+  try {
+    const response = await apiService.fetchData("/PromotionZip",{},true);
+    setData(response.data);
+  } catch (err) {
+  } finally {
+    setLoading(false);
   }
+};
 
-  // Form submission handler
-  const handleSubmit = async (values: User) => {
+  const handleDelete = (guid: string,id?:string) => {
+
+    setIsPopup(true);
+    setSelectedId(id||null);
+  };
+
+  const handleDeleteConfirmed = async () => {
+
+
+    if (!selectedId) return;
+    const response = await apiService.deleteData(
+      "promotionzip",
+      selectedId,
+      true
+    );  
+
     
-    setLoading(true);
-    setSuccessMessage("");
-    setErrorMessage("");
+    toast.success("Successfully Deleted");
 
-    
-    try {
-
-      if(isEditing){
-        const response = await apiService.putData(`http://localhost:7078/api/PromotionZip`,  values,{},true );
+  
+    if (response.isSuccess) {
       
-                if (response.isSuccess) {
-                  // setIsEditing(false)
-                  setData((prev)=>[...prev,response.data])
-
-                  toast.success("Zip has been Updated")
-                }
-            setSuccessMessage("Zip updated successfully!");
-      }
-      else{
-
-        const response = await apiService.postData(`http://localhost:5145/api/PromotionZip`,  values,{},true );
-
-          if (response.isSuccess) {
-setData((prev)=>[...prev,response.data])
-            toast.success("Zip has been Added")
-          }
-      setSuccessMessage("Zip updated successfully!");
+      setData((prevData) => prevData.filter((item) => item.id !== selectedId));
+      console.log(response, "Success");
+    } else {
+      console.log("Delete Failed", response?.message || "Unknown Error");
     }
 
-    } catch (err) {
-      
-      setErrorMessage( "An error occurred while updating the user.");
-    } 
-    
-    finally {
-      setLoading(false);
-    }
+  };
+
+  const handleEdit = (id: string, Data: any) => {
+    alert(id);
+    console.log(Data);
+  };
+
+  const onView = (id: string) => {
+    return `/view/${id}`;
   };
 
   const isAuthenticated  = useAuthRedirect();
   if (isAuthenticated) return null;
 
   return (
-    <div className="w-full">
-            <Toaster />
-      <Popup isOpen={isOpen} setIsOpen={setIsOpen} title="Are you Sure YOu Want Delete" cancelText="Cancel" confirmText="Delete" onConfirm={handleDelete} />
-      <h2 className="text-xl font-bold mb-4">Promotion Zip</h2>
-    <div className="w-full flex justify-between flex-wrap">
+    <div>
+      <h2 className="font-bold pb-4 mb-1">Promotion Cities</h2>
+<Toaster/>
+      <Popup
+        isOpen={isPopup}
+        setIsOpen={setIsPopup}
+        title="Are you Sure YOu Want Delete"
+        cancelText="Cancel"
+        confirmText="Delete"
+        onConfirm={handleDeleteConfirmed}
+      />
 
-      <div className="w-1/3">
-
-      {successMessage && <div className="text-green-600 mb-4">{successMessage}</div>}
-      {errorMessage && <div className="text-red-600 mb-4">{errorMessage}</div>}
-
-      <Formik
-        initialValues={initialValues}
-        enableReinitialize
-        validationSchema={PromotionZipSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting,setFieldValue ,values}) => (
-          <Form>
-            {/* Name Field */}
-            <div className="mb-4">
-              <label htmlFor="zip" className="block font-medium">
-              Zip
-              </label>
-              <Field
-          
-                type="text"
-                id="name"
-                name="zip"
-                className="border rounded w-full p-2"
-              />
-
-              <ErrorMessage
-                name="name"
-                component="div"
-                className="text-red-600 text-sm mt-1"
-              />
-            </div>
-
-
-
-            {/* Submit Button */}
-            <div className="mt-4">
-
-              <button
-                type="submit"
-                disabled={isSubmitting || loading}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-              >
-                {loading ? "Uploading...": isEditing? "Update Zip" : "Create Zip"}
-              </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+      <UserListV3
+      
+        apiEndpoint="promotionzip/v2"
+         apiVersion="v3"
+        columns={[
+          { key: "zip", label: "City" },
+    
+        ]}
+        itemsPerPage={10}
+        onDelete={handleDelete}
+        // onEdit={handleEdit}
+        // onView={onView}
+      filterss={[
+        {
+          name:"city",
+          type:"text",
+          placeholder:"Search by City",
+        }
+      ]}
+    
+      />
     </div>
-<div className="w-[60%]">
-
-
-
-
-<CommonListV3<User> key={refreshKey} apiEndpoint={``} sharedList={data} columns={[
- { key: "zip", label: "zip" },
-]} 
-onEdit={handleEdit}
-onDelete={handleDeleteConfirmation}
-/>
-</div>
-
-
-    </div>
-
-    </div>
-
   );
 };
 

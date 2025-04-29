@@ -57,11 +57,11 @@ const SearchFilters: React.FC<ISearchFiltersProps> = ({
         </div>
       ))}
       <div className="flex gap-2">
-        <button className="bg-blue-300 rounded p-1" onClick={handleReset}>
+        <button className="bg-blue-300 rounded px-4 py-1 text-gray" onClick={handleReset}>
           Reset
         </button>
         <button
-          className="bg-blue-300 rounded p-1"
+          className="bg-blue-300 rounded  px-4 py-1 text-gray"
           onClick={() => onApply({...filterValues})}
         >
           Apply

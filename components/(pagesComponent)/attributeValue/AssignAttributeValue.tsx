@@ -132,12 +132,12 @@ else{
         {({ isSubmitting }) => (
           <Form className="space-y-4">
             <div>
-              <label htmlFor="value" className="block font-medium">Value</label>
-              <Field type="text" id="value" name="value" className="border rounded w-full p-2" />
+              <label htmlFor="value" className="block font-medium">Attribute Value</label>
+              <Field type="text" id="value" name="value" placeholder="Models,Ram,Rom and Attribute Values " className="border rounded w-full p-2" />
               <ErrorMessage name="value" component="div" className="text-red-600 text-sm mt-1" />
             </div>
             <button type="submit" disabled={isSubmitting} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-              {isSubmitting ? "Saving...": isEditing? "Update Value" : "Save Value"}
+              {isSubmitting ? "Saving...": isEditing? "Update Value" : "Assign Value"}
 
             </button>
           </Form>
@@ -147,7 +147,7 @@ else{
       key={refreshKey}
         apiEndpoint={`/CategoryAttributeValues/attributesValues?id=` + attributeid}
         payload={{ categoryAttributeId: attributeid }}
-        columns={[{ key: "value", label: "Value" }]}
+        columns={[{ key: "value", label: "Values" }]}
          onEdit={HandleEdit}
         onDelete={handleDeleteConfirmation}
       />

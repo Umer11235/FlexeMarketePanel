@@ -45,13 +45,7 @@ id: "",
   address: "",
 })
 
-//  for update 
-  // const [productList, setProductList] = useState<any[]>([]); // Shared state for products
 
-
-//  for update 
-
-// alert(selectedType)
 
   useEffect(() => {
       fetchData(selectedType);
@@ -113,8 +107,7 @@ id: "",
   const handleSubmit = async (values: User,{ resetForm }: { resetForm: () => void }) => {
     alert();
     setLoading(true);
-    setSuccessMessage("");
-    setErrorMessage("");
+
 
     
     try {
@@ -160,13 +153,11 @@ setData((prev)=>[...prev,response.data])
     <div className="w-full">
             <Toaster />
       <Popup isOpen={isOpen} setIsOpen={setIsOpen} title="Are you Sure YOu Want Delete" cancelText="Cancel" confirmText="Delete" onConfirm={handleDelete} />
-      <h2 className="text-xl font-bold mb-4">Promotion Zip</h2>
+      <h2 className="text-xl font-bold mb-4">Gift PickUp</h2>
     <div className="w-full flex justify-between flex-wrap">
 
       <div className="w-1/3">
 
-      {successMessage && <div className="text-green-600 mb-4">{successMessage}</div>}
-      {errorMessage && <div className="text-red-600 mb-4">{errorMessage}</div>}
 
       <Formik
         initialValues={initialValues}
@@ -222,7 +213,7 @@ setData((prev)=>[...prev,response.data])
  {/* Name Field */}
  <div className="mb-4">
               <label htmlFor="pickuplocation" className="block font-medium">
-              pickup Location
+              Pickup Location
               </label>
               <Field
           
@@ -273,7 +264,7 @@ setData((prev)=>[...prev,response.data])
                 disabled={isSubmitting || loading}
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
               >
-                {loading ? "Uploading...": isEditing? "Update Zip" : "Create Zip"}
+                {loading ? "Uploading...": isEditing? "Update Zip" : "Create Gift"}
               </button>
             </div>
           </Form>

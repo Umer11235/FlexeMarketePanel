@@ -71,6 +71,7 @@ const Page = () => {
           { key: "emailConfirmed", label: "Cornfirm Email" },
           { key: "phoneNumber", label: "Phone" },
           { key: "phoneNumberConfirmed", label: "Phone Confirmed" },
+          { key: "isVendor", label: "is Vendor" },
         ]}
         itemsPerPage={10}
         // Action="users"

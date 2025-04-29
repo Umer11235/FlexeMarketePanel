@@ -18,26 +18,12 @@ const [cancelOrderId, setCancelOrderId] = useState<string | null>(null);
 const [cancelConfirmedOrderId, setCancelConfirmedOrderId] = useState<string | null>(null);
 
 
-// const handleDelete=(id:string)=>{
-// alert("set"+id)
-// setIsPopup(true)
-// setSelectedId(id)
-// }
-
-// const handleDeleteConfirmed = async () => {
+const handleDelete=(id:string)=>{
+setIsPopup(true)
+setSelectedId(id)
+}
 
 
-//     if(!selectedId) return;
-//     const response=await apiService.deleteData("deleteApie", selectedId , true);
-
-//     if (response.isSuccess) {
-//       console.log(response, "Success");
-//     }else {
-//       console.log("Delete Failed", response?.message || "Unknown Error");
-//     }
-//     // alert(id+action+deleteApie)
-
-// };
 
 const handleEdit=(id:string,Data:any)=>{
 
@@ -99,7 +85,7 @@ const onView=(id:string)=>{
           { key: "orderNumber", label: "Order#" },
           { key: "name", label: "Name" },
           { key: "address", label: "Address" },
-          { key: "orderItems", label: "Items" },
+          { key: "items[0].quantity", label: "Items" },
           { key: "price", label: "Price" },
           { key: "total", label: "Total" },
           { key: "tax", label: "Tax Price" },
@@ -130,7 +116,7 @@ const onView=(id:string)=>{
         {
           name: "orderNumber",
           type: "text",
-          placeholder: "order",
+          placeholder: "Order No #..",
         },
       ]}
       removeListId={cancelConfirmedOrderId?cancelConfirmedOrderId:""}

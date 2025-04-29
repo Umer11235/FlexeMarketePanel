@@ -6,6 +6,7 @@ import Icons from "@/utilities/icons/icons";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import { CommonListPropsV2 } from "./Interfaces/IList";
 
+
 const CommonListV2 = <T extends { id: string; type?: number }>({
   apiEndpoint,
   columns,
@@ -16,6 +17,7 @@ const CommonListV2 = <T extends { id: string; type?: number }>({
   onEdit,
   onSetValue,
   payload,
+  attributesColumn,
 }: CommonListPropsV2<T>) => {
   const { data, loading, error } = useFetchData<T>(
     apiEndpoint,
@@ -60,6 +62,14 @@ const CommonListV2 = <T extends { id: string; type?: number }>({
               <th scope="col" className="px-4 py-2">
                 Actions
               </th>
+
+              {/* <th scope="col" className="px-4 py-2">
+                Attributes
+              </th> */}
+
+{attributesColumn && (
+      <th className="px-4 py-2">{attributesColumn.header}</th>
+    )}
             </tr>
           </thead>
           <tbody>
@@ -108,6 +118,17 @@ const CommonListV2 = <T extends { id: string; type?: number }>({
                       </button>
                     )}
                 </td>
+
+                {attributesColumn && (
+ <td className="px-4 py-2">
+                   
+
+ { [1, 2, 3].includes(item.type ?? 0) && ( 
+  attributesColumn.render?.(item.id)
+  )}
+                    
+</td>
+)}
               </tr>
             ))}
           </tbody>

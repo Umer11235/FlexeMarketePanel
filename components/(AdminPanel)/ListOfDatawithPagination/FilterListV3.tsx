@@ -11,6 +11,7 @@ import Image from "next/image";
 
 
 
+
 const UserListV3 = <T,>({
   columns,itemsPerPage = 10,
   bgColor,apiEndpoint,apiVersion, Action,deleteApie,onDelete ,onCancel ,onEdit,onView,onItemsPerPageChange ,filterss ,removeListId }:UserListComponentProps<T>) =>
@@ -46,7 +47,11 @@ const UserListV3 = <T,>({
   
 
   useEffect(() => {
-    if (apiVersion === "v2") {
+    if(apiVersion==="v3"){
+      fetchUsersV3(currentPage);
+
+    }
+   else if (apiVersion === "v2") {
       fetchUsersV2(currentPage);
     } else {
       
@@ -69,6 +74,24 @@ const fetchUsersV2=async(page: number)=>{
 console.log(response.data.orders)
   setUsers(response.data.orders || []);
   setTotalUsers(response.data.total || 0); } 
+catch (error) {
+  console.error("Error fetching users:", error);
+} finally {
+  setLoading(false);
+}
+}
+
+const fetchUsersV3=async(page: number)=>{
+ try {
+  setLoading(true)
+  const response= await apiService.fetchData(apiEndpoint,
+    { ...filters },
+    true
+  );
+console.log("v3",response)
+setUsers(response.data || []);
+setTotalUsers(response.count || 0);
+ } 
 catch (error) {
   console.error("Error fetching users:", error);
 } finally {
@@ -197,7 +220,11 @@ catch (error) {
               </th>
             ))}
             <th scope="col" className="px-4 py-2">
-              Actions
+            {(onView || onEdit || onDelete) && "Actions"}
+            {/* {(typeof onView === 'function' || typeof onEdit === 'function' || typeof onDelete === 'function') && "Actions"} */}
+
+
+
             </th>
           </tr>
         </thead>
@@ -212,7 +239,7 @@ catch (error) {
               
               {columns.map((column) => (
                 <td
-                  key={column.key}
+                  key={column.key }
                   className="px-4 py-2 text-nowrap min-w-6 max-w-[10rem] overflow-hidden"
                 >
                   {column.key === "images" &&

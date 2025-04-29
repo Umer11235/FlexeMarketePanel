@@ -7,8 +7,8 @@ import { MdOutline10K, MdOutlineDashboard } from "react-icons/md";
 import { TbReportAnalytics } from "react-icons/tb";
 import Link from "next/link";
 import { TiMediaEject, TiMediaStopOutline } from "react-icons/ti";  
-import Image from "next/image";
-import profile from "@/images/user-1.jpg"
+import { TbCategoryPlus } from "react-icons/tb";
+
 import { UserCheck } from "lucide-react";
 import { useTheme } from "@/components/ThemContext/theme";
 
@@ -44,43 +44,45 @@ if(open){
     // const categories = [ this is old version ] this is old version
 
     const categories: { title: string; menus: MenuItem[] }[] = [
+      
+        {
+            title: "Category",
+            menus: [
+                { name: "Categories", link: '/category', Icon: TbCategoryPlus, submenu: [
+                    // { name: "Categories", link: '/category', Icon: AiOutlineUser },
+                    // { name: "Attributes", link: '/presaleevent', Icon: AiOutlineUser },
+  
+                ]},
+           
+            ],
+        },
+      
         {
             title: "information",
             menus: [
                 // { name: "Home", link: '/dashboard', Icon: MdOutlineDashboard },
                 { name: "Users", link: '/users', Icon: TiMediaEject },
                 { name: "Product", link: '/products', Icon: UserCheck },
-                { name: "Affilliations", link: '/requesteduser', Icon: TiMediaEject },
+                // { name: "Affilliations", link: '/requesteduser', Icon: TiMediaEject },
                 { name: "Orders", link: '/orders', Icon: FiMessageSquare },
                  { name: "Promotion Zip", link: '/promotionZip', Icon: MdOutlineDashboard },
                  { name: "Gift Pick Up Orders", link: '/giftpickup', Icon: MdOutlineDashboard },
                 { name: "Ask messages", link: '/askmessage', Icon: TiMediaEject },
-                { name: "Shipment", link: '/product-update', Icon: TiMediaEject },
+                // { name: "Shipment", link: '/product-update', Icon: TiMediaEject },
                 { name: "State", link: '/state', Icon: TiMediaEject },
                 { name: "Contacts", link: '/contact', Icon: TiMediaEject },
-                { name: "Settings", link: '/settings', Icon: TiMediaEject },
+                // { name: "Settings", link: '/settings', Icon: TiMediaEject },
 
             ],
         },
 
 
         
-        {
-            title: "Category",
-            menus: [
-                { name: "Category", link: '#', Icon: FiList, submenu: [
-                    { name: "Categories", link: '/category', Icon: AiOutlineUser },
-                    { name: "Attributes", link: '/presaleevent', Icon: AiOutlineUser },
-  
-                ]},
-           
-            ],
-        },
+      
         {
             title: "Settings",
             menus: [
                 { name: "Settings", link: '/settings', Icon: FiMessageSquare },
-                { name: "Billings", link: '/userss', Icon: TbReportAnalytics },
             ],
         },
     ];

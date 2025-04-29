@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +5,8 @@
 
 body{
   font-size: 14px;
+  padding-right: 0px!important;
+  overflow: overlay!important
 }
 
 
@@ -148,20 +149,20 @@ color: white;
 
 /* //for check icon  */
 
-input[type="checkbox"]:checked {
-  background-color: #13181f; /* Tailwind's bg-gray-700 */
-  border-color: #141a22; /* Tailwind's border-gray-800 */
+/* input[type="checkbox"]:checked {
+  background-color: #13181f; 
+  border-color: #141a22; 
 }
 
 input[type="checkbox"]:checked::after {
-  content: '✔'; /* Unicode checkmark character */
+  content: '✔'; 
   color: white;
   display: block;
   font-size: 14px;
   position: relative;
   top: -2px;
   left: 2px;
-}
+} */
 
 /* For Webkit browsers */
 ::-webkit-scrollbar {

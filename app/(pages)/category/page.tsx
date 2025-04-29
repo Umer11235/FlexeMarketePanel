@@ -11,6 +11,11 @@ import { apiService, askMessagesService, productService } from "@/apies/Services
 import Dropdown from "@/components/(AdminPanel)/(Fields)/inputs/Dropdown/Dropdown";
 import Popup from "@/components/(AdminPanel)/popup";
 import { useAuthRedirect } from "@/utilities/Authentication";
+import { getTypeLabel } from "@/utilities/helpers.ts";
+import Link from "next/link";
+import Icons from "@/utilities/icons/icons";
+import Image from "next/image";
+import CommonListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/CommonListV3";
 
 
 interface IUserFormValues {
@@ -20,6 +25,8 @@ interface IUserFormValues {
   description: string;
   type: number;
   parent_id?: number;
+  imageFile?: File | null; 
+  previewImage?: string;
 }
 
 interface User {
@@ -29,6 +36,7 @@ interface User {
   type: number;
   description: string;
   parent_id: number;
+  images: string[];
 }
 
 
@@ -167,8 +175,25 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
             setSuccessMessage("User updated successfully!");
       }
       else{
-        const response = await apiService.postData(
-          "categories", values,{},true
+        const formData = new FormData();
+    
+        // 2. Append all category data
+        formData.append('name', values.name);
+        formData.append('description', values.description); 
+        formData.append('type', values.type.toString());
+        
+        if (values.parent_id) {
+          formData.append('parent_id', values.parent_id.toString());
+        }
+        
+        // 3. Append image file if exists
+        if (values) {
+          formData.append('imageFile', values.imageFile as Blob );
+        }
+
+        const response = await apiService.postData(          
+          "categories/v2", values,{'Content-Type': 'multipart/form-data'
+          },true
         );
 
    
@@ -199,6 +224,7 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
     <div className="w-full">
             <Toaster />
       <Popup isOpen={isOpen} setIsOpen={setIsOpen} title="Are you Sure YOu Want Delete" cancelText="Cancel" confirmText="Delete" onConfirm={handleDelete} />
+    
       <h2 className="text-xl font-bold mb-4">Category</h2>
     <div className="w-full flex justify-between flex-wrap">
 
@@ -218,13 +244,14 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
             {/* Name Field */}
             <div className="mb-4">
               <label htmlFor="name" className="block font-medium">
-              Name
+              Title
               </label>
               <Field
           
                 type="text"
                 id="name"
                 name="name"
+                placeholder="Category Name Ex : Mobile, Laptop, Electronics, jewelry"
                 className="border rounded w-full p-2"
               />
 
@@ -239,13 +266,14 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
                {/* Name Field */}
                <div className="mb-4">
               <label htmlFor="name" className="block font-medium">
-              sort
+              Sort Number
               </label>
               <Field
           
-                type="text"
+                type="number"
                 id="sort"
-                name="sort"
+                name="Sort Number"
+                placeholder="Sort Number Ex : 1,2,3"
                 className="border rounded w-full p-2"
               />
               </div>
@@ -256,13 +284,60 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
               Description 
               </label>
               <Field
+              as="textarea"
                 type="text"
                 id="service"
                 name="description"
+                placeholder="Description Ex : Details about the category"
                 className="border rounded w-full p-2"
               />
            
             </div>
+
+
+
+
+
+{/* Image Upload Field */}
+<div className="mb-4">
+  <label htmlFor="imageFile" className="block font-medium">
+    Category Image
+  </label>
+  <input
+    type="file"
+    id="imageFile"
+    name="imageFile"
+    accept="image/*"
+    onChange={(e) => {
+      if (e.currentTarget.files && e.currentTarget.files[0]) {
+        const file = e.currentTarget.files[0];
+        setFieldValue("imageFile", file);
+        // Create preview URL
+        setFieldValue("previewImage", URL.createObjectURL(file));
+      }
+    }}
+    className="border rounded w-full p-2"
+  />
+  <ErrorMessage
+    name="imageFile"
+    component="div"
+    className="text-red-600 text-sm mt-1"
+  />
+  
+  {/* Image Preview */}
+  {values.previewImage && (
+    <div className="mt-2">
+      <Image
+        src={values.previewImage}
+        alt="Preview"
+        width={100}
+        height={100}
+        className="w-24 h-24 object-cover rounded"
+      />
+    </div>
+  )}
+</div>
+
 
 
             {/* Email Field */}
@@ -270,7 +345,7 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
             <div className="mb-4">
                 
                   <Dropdown
-                    label="Value Type"
+                    label=" Category For"
                     options={[
                       { value: "1", label: "Product" },
                       { value: "2", label: "Service" },
@@ -293,7 +368,7 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
  <div className="mb-4">
       
         <Dropdown
-          label="Category"
+          label="Select Parent Category"
           options={data.map((category) => ({
             value: category.id, // id will be used as the value
             label: category.name, // name will be displayed
@@ -326,17 +401,55 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
 
 
 
-<CommonListV2<User> key={refreshKey} apiEndpoint={`/categories/getAllCategories`} columns={[
- 
- { key: "name", label: "Name" },
- { key: "sort", label: "sort" },
- { key: "type", label: "type" },
- { key: "description", label: "description" },
+<CommonListV3<User> key={refreshKey}
+ apiEndpoint={`/categories/getAllCategories/v2`} 
+ columns={[
+  { 
+    key: "images", 
+    label: "Images",
+    render: (_: any, item: any) => (
+      <div className="flex gap-2">
+        {item.images?.map((img: any, index: number) => (
+          <Image
+          key={index}
+          src={`https://flexemart.com/uploads/${img.name}`}
+          alt={img.name}
+          width={40}
+          height={40}
+          className="w-16 h-16 object-cover  rounded"
+        />
+        ))}
+      </div>
+    )
+  },
+  { key: "name", label: "Name" },
+  { key: "sort", label: "Sort Number" },
+  { 
+    key: "type", 
+    label: "type",
+    render: (type: number) => {
+      return getTypeLabel(type, {
+        1: "Product",
+        2: "Service",
+      });
+    }
+  },
+  { key: "description", label: "description" },
 ]} 
-onView={handleView}
 onEdit={handleEdit}
 onDelete={handleDeleteConfirmation}
+attributesColumn={{
+  header: "Attributes",
+  render: (id: string) => (
+    <Link href={`/categoryAttribute/${id}`} className="text-blue-500">
+      <Icons icon="link" />
+    </Link>
+  ),
+}}
+filtersPatterns={[{name:"name",type:"text",placeholder:"Search By Name"},
+{ name: "type", type: "select", options: [{ key: "Product", value: 1 }, { key: "Service", value: 2 }] }]}
 />
+
 </div>
 
 

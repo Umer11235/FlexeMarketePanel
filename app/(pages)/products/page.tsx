@@ -5,7 +5,26 @@ import UserListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/Filte
 import Popup from "@/components/(AdminPanel)/popup";
 import ModalForm from "@/components/(pagesComponent)/modalForm";
 import { useAuthRedirect } from "@/utilities/Authentication";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+
+interface User {
+  id: string;
+  name: string;
+  sort: number;
+  type: number;
+  description: string;
+  parent_id: number;
+  images: string[];
+}
+
+interface IUser {
+  id: string;
+  name: string;
+  email: string;
+
+}
+
 
 const Page = () => {
 
@@ -14,6 +33,38 @@ const Page = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isModal, setIsModal] = useState(false);
   const [editInitialValues, setEditInitialValues] = useState({});
+  const [loading, setLoading] = useState(false);
+const [data, setData] = useState<User[]>([]);
+const [user, setUser] = useState<IUser[]>([]);
+
+useEffect(() => {
+    fetchData(1); 
+    fetchUser();
+  }, []);
+
+  const fetchData = async (type: number) => {
+    setLoading(true);
+    try {
+      const response = await apiService.fetchData("/categories/GetCategoriesByType",{"type":"1"},true);
+      setData(response.data);
+      console.log(response.data, "Response Data Category");
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchUser = async () => {
+    setLoading(true);
+    try {
+      const response = await apiService.postData("/misc/all-users",{},{},true);
+      setUser(response.data.data);
+      console.log(response.data.data, "Response Data User");
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Dynamically generate fields from editInitialValues
   const fields = useMemo(() => {
@@ -88,6 +139,7 @@ const Page = () => {
   };
   
 
+
   const onView = (id: string) => {
     return `/product-view/${id}`;
   };
@@ -130,15 +182,72 @@ const Page = () => {
             name: "category",
             type: "select",
             options: [
-              { key: "Electronics", value: "320" },
-              { key: "Bluetooth", value: "321" },
-              { key: "Smartwatches", value: "353" },
+              ...(data?.map((category) => ({
+                key: category.name,
+                value: category.id,
+              
+              })) || []),
+
+            ],
+          },
+          {
+            name: "emails",
+            type: "select",
+            options: [
+              ...(user?.map((users) => ({
+                key: users.email,
+                value: users.id,
+              
+              })) || []),
+
             ],
           },
           {
             name: "name",
             type: "text",
             placeholder: "Name",
+          },
+     
+          {
+            name: "deleverytype",
+            type: "select",
+            options: [
+              { key: "Shipping", value: "1" },
+              { key: "local", value: "2" },
+            ],
+          },
+     
+          {
+            name: "condition",
+            type: "select",
+            options: [
+              { key: "For Parts", value: "For_Parts" },
+              { key: "New", value: "New" },
+              { key: "Open Box", value: "Open_Box" },
+              { key: "Others", value: "Others" },
+              { key: "Renewed", value: "Renewed" },
+              { key: "Used", value: "Used" },
+            ],
+          },
+     
+          {
+            name: "status",
+            type: "select",
+            options: [
+              { key: "Pending", value: "1" },
+              { key: "Approved", value: "2" },
+              { key: "Rejected", value: "3" },
+            ],
+          },
+          {
+            name: "location",
+            type: "text",
+            placeholder: "Location Search",
+          },
+          {
+            name: "zip",
+            type: "text",
+            placeholder: "Zip Code",
           },
         ]}
       />

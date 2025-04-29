@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { productService } from "@/apies/Services/UserService";
 
 const useFetchData = <T,>(apiEndpoint: string, sharedList?: T[] , payload: any = {}) => {
+  
   const [data, setData] = useState<T[]>(sharedList || []);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
