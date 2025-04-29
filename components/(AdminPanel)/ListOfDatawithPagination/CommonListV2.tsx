@@ -16,13 +16,13 @@ const CommonListV2 = <T extends { id: string; type?: number }>({
   onDelete,
   onEdit,
   onSetValue,
-  payload,
+  payloads,
   attributesColumn,
 }: CommonListPropsV2<T>) => {
   const { data, loading, error } = useFetchData<T>(
     apiEndpoint,
     sharedList,
-    payload
+    payloads
   );
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);

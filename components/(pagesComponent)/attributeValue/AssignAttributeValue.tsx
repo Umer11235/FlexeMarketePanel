@@ -146,7 +146,7 @@ else{
       <CommonListV2<IAssignAttributeValueProps> 
       key={refreshKey}
         apiEndpoint={`/CategoryAttributeValues/attributesValues?id=` + attributeid}
-        payload={{ categoryAttributeId: attributeid }}
+        payloads={{ categoryAttributeId: attributeid }}
         columns={[{ key: "value", label: "Values" }]}
          onEdit={HandleEdit}
         onDelete={handleDeleteConfirmation}
