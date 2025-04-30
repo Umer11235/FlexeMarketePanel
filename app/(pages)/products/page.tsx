@@ -174,7 +174,10 @@ useEffect(() => {
            },
           { key: "condition", label: "Condition" },
           { key: "sku", label: "Sku" },
-          { key: "inventory", label: "Inventory" },
+          { key: "inventory", label: "Inventory" 
+            , 
+        render: (value: number) => `(${value}) items`
+          },
           { key: "shippingType", label: "Shipping Type" 
             , 
             render: (status: number) => {
