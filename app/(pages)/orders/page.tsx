@@ -3,9 +3,24 @@ import { apiService } from "@/apies/Services/UserService";
 import UserListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV3";
 import Popup from "@/components/(AdminPanel)/popup";
 import { useAuthRedirect } from "@/utilities/Authentication";
+import { getTypeLabel } from "@/utilities/helpers.ts";
 import { useState } from "react";
 import { toast, Toaster } from "sonner";
 
+
+interface IOrder{
+  orderNumber: string;
+  name: string;
+  address: string;
+  items: { quantity: number }[];
+  price: number;
+  total: number;
+  tax: number;
+  shipping: number;
+  grandTotal: number;
+  status: number;
+  id: string;
+}
 
 const Page = () => {
 
@@ -77,7 +92,7 @@ const onView=(id:string)=>{
 
 <h2 className="font-bold pb-4 mb-1">Orders</h2>
 
-      <UserListV3
+      <UserListV3<IOrder>
       // apiEndpoint="https://flexemart.com/api/order/search-orders"     //----- old api V1----
         apiEndpoint="orderv2/orders"
         apiVersion="v2"
@@ -85,19 +100,39 @@ const onView=(id:string)=>{
           { key: "orderNumber", label: "Order#" },
           { key: "name", label: "Name" },
           { key: "address", label: "Address" },
-          { key: "items[0].quantity", label: "Items" },
-          { key: "price", label: "Price" },
-          { key: "total", label: "Total" },
-          { key: "tax", label: "Tax Price" },
-          { key: "shipping", label: "Shipping" },
-          { key: "grandTotal", label: "Grand Total" },
-          { key: "status", label: "Status" },
+          // { key: "items", label: "Items" },
+          { key: "price", label: "Price",
+             render: (value: number) => `$${value.toFixed(2)}`
+           },
+          { key: "total", label: "Total",
+             render: (value: number) => `$${value.toFixed(2)}`
+           },
+          { key: "tax", label: "Tax Price" ,
+             render: (value: number) => `$${value.toFixed(2)}`
+          },
+          { key: "shipping", label: "Shipping" 
+            , render: (value: number) => `$${value.toFixed(2)}`
+          },
+          { key: "grandTotal", label: "Grand Total" ,
+             render: (value: number) => `$${value.toFixed(2)}`
+          },
+          { key: "status", label: "Status", 
+               render: (status: number) => {
+                  return getTypeLabel(status, {
+                    1: "Pending",
+                    2: "delivered",
+                    3: "Rejected",
+                    4: "Fullfilled",
+                    5: "Un Confirmed",
+                  });
+                }
+          },
         ]}
         itemsPerPage={10}
       // Action="orders"
       // onDelete={handleDelete}
       onView={onView}
-      onEdit={handleEdit}
+      // onEdit={handleEdit}
       onCancel={handleCancel}
       filterss={[
         {

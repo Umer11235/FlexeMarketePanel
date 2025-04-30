@@ -37,7 +37,7 @@ export interface Column {
     apiEndpoint: string;
     apiVersion?: string;
     deleteApie?: string;
-    columns: Column[];
+    columns: ColumnV2<T>[];
     itemsPerPage?: number;
     bgColor?: string;
     Action?: string | "";

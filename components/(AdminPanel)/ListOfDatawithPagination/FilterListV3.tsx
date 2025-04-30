@@ -212,7 +212,7 @@ catch (error) {
           <tr>
             {columns.map((column) => (
               <th
-                key={column.key}
+                key={column.key.toString()}
                 scope="col"
                 className="px-4 py-2 w-32 text-nowrap"
               >
@@ -239,7 +239,7 @@ catch (error) {
               
               {columns.map((column) => (
                 <td
-                  key={column.key }
+                  key={column.key.toString() }
                   className="px-4 py-2 text-nowrap min-w-6 max-w-[10rem] overflow-hidden"
                 >
                   {column.key === "images" &&
@@ -264,7 +264,10 @@ catch (error) {
                       "No"
                     )
                   ) : (
-                    user[column.key]?.toString()
+                    // user[column.key]?.toString()
+                    column.render
+                      ? column.render(user[column.key], user)
+                      : user[column.key]?.toString()
                   )}
                 </td>
               ))}
