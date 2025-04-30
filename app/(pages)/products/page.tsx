@@ -176,7 +176,7 @@ useEffect(() => {
           { key: "sku", label: "Sku" },
           { key: "inventory", label: "Inventory" 
             , 
-        render: (value: number) => `(${value}) items`
+        render: (value: number) => `(${value.toLocaleString()}) items`
           },
           { key: "shippingType", label: "Shipping Type" 
             , 
