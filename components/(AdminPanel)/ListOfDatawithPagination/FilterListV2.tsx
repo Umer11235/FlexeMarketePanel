@@ -160,7 +160,7 @@ const UserListV2 = <T,>({
           <tr>
             {columns.map((column) => (
               <th
-                key={column.key}
+                key={column.key.toString()}
                 scope="col"
                 className="px-4 py-2 w-32 text-nowrap"
               >
@@ -182,7 +182,7 @@ const UserListV2 = <T,>({
               
               {columns.map((column) => (
                 <td
-                  key={column.key}
+                  key={column.key.toString()}
                   className="px-4 py-2 text-nowrap min-w-6 max-w-[10rem] overflow-hidden"
                 >
                   {column.key === "images" &&
