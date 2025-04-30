@@ -5,6 +5,7 @@ import UserListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/Filte
 import Popup from "@/components/(AdminPanel)/popup";
 import ModalForm from "@/components/(pagesComponent)/modalForm";
 import { useAuthRedirect } from "@/utilities/Authentication";
+import { getTypeLabel } from "@/utilities/helpers.ts";
 import { useEffect, useMemo, useState } from "react";
 
 
@@ -165,13 +166,36 @@ useEffect(() => {
         columns={[
           { key: "images", label: "Image" },
           { key: "name", label: "Name" },
-          { key: "price", label: "Price" },
-          { key: "discount", label: "Discount %" },
+          { key: "price", label: "Price",
+             render: (value: number) => `$${value.toFixed(2)}`
+           },
+          { key: "discount", label: "Discount %",
+             render: (value: number) => `%${value.toFixed(2)}`
+           },
           { key: "condition", label: "Condition" },
           { key: "sku", label: "Sku" },
           { key: "inventory", label: "Inventory" },
-          { key: "shippingType", label: "Shipping Type" },
-          { key: "status", label: "Status" },
+          { key: "shippingType", label: "Shipping Type" 
+            , 
+            render: (status: number) => {
+               return getTypeLabel(status, {
+                 3: "Shipping",
+                 2: "Local",
+               });
+             }
+          },
+         
+          { key: "status", label: "Status" 
+
+            , 
+                           render: (status: number) => {
+                              return getTypeLabel(status, {
+                                1: "Pending",
+                                2: "Approved",
+                                3: "Rejected",
+                              });
+                            }
+          },
         ]}
         itemsPerPage={10}
         onDelete={handleDelete}
