@@ -319,7 +319,11 @@ const Page = ({ params }: { params: { id: string } }) => {
             apiEndpoint={`/Modified/getAllCategoriesById/v2?id=` + id}
             columns={[
               { key: "name", label: "Name" },
-              { key: "markForVariant", label: "Variant" },
+              { key: "markForVariant", label: "Variant"
+                ,render: (type: boolean) => {
+                  return type?( <span>Available</span>):(<span className="text-red-700">Not Available</span>)
+                }
+               },
               { key: "sortOrder", label: "Order" },
               {
                 key: "type",

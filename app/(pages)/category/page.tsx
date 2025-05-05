@@ -428,7 +428,11 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
     )
   },
   { key: "name", label: "Name" },
-  { key: "sort", label: "Sort Number" },
+  { key: "sort", label: "Sort Number",
+    render: (sort: number) => {
+      return sort === null ? "No Sort" : sort.toString();
+    }
+   },
   { 
     key: "type", 
     label: "type",
@@ -439,7 +443,11 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
       });
     }
   },
-  { key: "description", label: "description" },
+  { key: "description", label: "description", 
+    render: (description: string) => {
+      return description === "" ? "No Description" : description.toString();
+    }
+  },
 ]} 
 onEdit={handleEdit}
 onDelete={handleDeleteConfirmation}
