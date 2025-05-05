@@ -46,7 +46,7 @@ const SearchFilters: React.FC<ISearchFiltersProps> = ({
               onChange={(e) => handleChange(filter.name, e.target.value)}
               className="px-2 py-1 rounded-md"
             >
-              <option value="">Select {filter.name}</option>
+              <option value="">Select {filter.title}</option>
               {filter.options?.map((option) => (
                 <option key={option.key} value={option.value}>
                   {option.key}

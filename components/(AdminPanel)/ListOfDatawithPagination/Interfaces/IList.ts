@@ -8,6 +8,7 @@
 
 export interface ISearchFiltersFields{
   filters: {
+    title?: string; 
     name: string;
     type: "text" | "select";
     options?: FilterOption[]; // Options for select filters

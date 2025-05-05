@@ -136,6 +136,7 @@ const onView=(id:string)=>{
       onCancel={handleCancel}
       filterss={[
         {
+          title:"Status",
           name: "status",
           type: "select",
           options: [
@@ -149,6 +150,7 @@ const onView=(id:string)=>{
         
         
         {
+          title: "OrderNo #",
           name: "orderNumber",
           type: "text",
           placeholder: "Order No #..",

@@ -192,7 +192,8 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
         }
 
         const response = await apiService.postData(          
-          "categories/v2", values,{'Content-Type': 'multipart/form-data'
+          "categories", values,{
+            // 'Content-Type': 'multipart/form-data'
           },true
         );
 
@@ -299,7 +300,8 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
 
 
 {/* Image Upload Field */}
-<div className="mb-4">
+
+{/* <div className="mb-4">
   <label htmlFor="imageFile" className="block font-medium">
     Category Image
   </label>
@@ -312,7 +314,6 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
       if (e.currentTarget.files && e.currentTarget.files[0]) {
         const file = e.currentTarget.files[0];
         setFieldValue("imageFile", file);
-        // Create preview URL
         setFieldValue("previewImage", URL.createObjectURL(file));
       }
     }}
@@ -324,7 +325,7 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
     className="text-red-600 text-sm mt-1"
   />
   
-  {/* Image Preview */}
+
   {values.previewImage && (
     <div className="mt-2">
       <Image
@@ -336,7 +337,7 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
       />
     </div>
   )}
-</div>
+</div> */}
 
 
 

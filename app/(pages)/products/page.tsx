@@ -167,10 +167,10 @@ useEffect(() => {
           { key: "images", label: "Image" },
           { key: "name", label: "Name" },
           { key: "price", label: "Price",
-             render: (value: number) => `$${value.toFixed(2)}`
+             render: (value: number) => `$${value.toFixed(1)}`
            },
           { key: "discount", label: "Discount %",
-             render: (value: number) => `%${value.toFixed(2)}`
+             render: (value: number) => `${value}%`
            },
           { key: "condition", label: "Condition" },
           { key: "sku", label: "Sku" },
@@ -206,6 +206,7 @@ useEffect(() => {
         onView={onView}
         filterss={[
           {
+            title: "Category",
             name: "category",
             type: "select",
             options: [
@@ -218,6 +219,7 @@ useEffect(() => {
             ],
           },
           {
+            title:"Email",
             name: "emails",
             type: "select",
             options: [
@@ -230,12 +232,14 @@ useEffect(() => {
             ],
           },
           {
+            title: "Name",
             name: "name",
             type: "text",
             placeholder: "Name",
           },
      
           {
+            title: "Delivery type",
             name: "deleverytype",
             type: "select",
             options: [
@@ -245,6 +249,7 @@ useEffect(() => {
           },
      
           {
+            title: "Condition",
             name: "condition",
             type: "select",
             options: [
@@ -258,6 +263,7 @@ useEffect(() => {
           },
      
           {
+            title: "Status",
             name: "status",
             type: "select",
             options: [
@@ -267,11 +273,13 @@ useEffect(() => {
             ],
           },
           {
+            title:"Location",
             name: "location",
             type: "text",
             placeholder: "Location Search",
           },
           {
+            title:"City",
             name: "zip",
             type: "text",
             placeholder: "Zip Code",
