@@ -35,7 +35,7 @@ interface User {
   sort: number;
   type: number;
   description: string;
-  parent_id: number;
+  parent_id?: number;
   images: string[];
 }
 
@@ -61,7 +61,7 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
   description:'',
   type:1,
   sort:0,
-  parent_id:0,
+  parent_id:undefined,
 })
 
 //  for update 
@@ -178,18 +178,18 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
         const formData = new FormData();
     
         // 2. Append all category data
-        formData.append('name', values.name);
-        formData.append('description', values.description); 
-        formData.append('type', values.type.toString());
+        // formData.append('name', values.name);
+        // formData.append('description', values.description); 
+        // formData.append('type', values.type.toString());
         
-        if (values.parent_id) {
-          formData.append('parent_id', values.parent_id.toString());
-        }
+        // if (values.parent_id) {
+        //   formData.append('parent_id', values.parent_id.toString()||"null");
+        // }
         
         // 3. Append image file if exists
-        if (values) {
-          formData.append('imageFile', values.imageFile as Blob );
-        }
+        // if (values) {
+        //   formData.append('imageFile', values.imageFile as Blob );
+        // }
 
         const response = await apiService.postData(          
           "categories", values,{
