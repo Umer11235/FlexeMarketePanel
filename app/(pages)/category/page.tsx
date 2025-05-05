@@ -410,16 +410,20 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
     label: "Images",
     render: (_: any, item: any) => (
       <div className="flex gap-2">
-        {item.images?.map((img: any, index: number) => (
-          <Image
-          key={index}
-          src={`https://flexemart.com/uploads/${img.name}`}
-          alt={img.name}
-          width={40}
-          height={40}
-          className="w-16 h-16 object-cover  rounded"
-        />
-        ))}
+        {item.images?.length ? (
+          item.images.map((img: any, index: number) => (
+            <Image
+              key={index}
+              src={`https://flexemart.com/uploads/${img.name}`}
+              alt={img.name}
+              width={40}
+              height={40}
+              className="w-16 h-16 object-cover rounded"
+            />
+          ))
+        ) : (
+          <span className="text-gray-400">No Image</span>
+        )}
       </div>
     )
   },
