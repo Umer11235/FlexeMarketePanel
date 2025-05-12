@@ -16,7 +16,7 @@ const Page = () =>{
   useEffect(() => {
     const fetchOrderDetails = async () => {
 
-      const response = await apiService.fetchData("/orderv2/orders",{search: params.id});
+      const response = await apiService.fetchData("/orderv2/orders/v2",{search: params.id}, true);
 
         if (response.isSuccess) {
           console.log(response.data.orders[0], "Success")

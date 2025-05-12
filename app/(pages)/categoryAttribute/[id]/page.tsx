@@ -265,7 +265,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                       { value: "2", label: "number" },
                     ]}
                     selectedValue={values.valueType}
-                    onChange={(value) => setFieldValue("valuetype", value)}
+                    onChange={(value) => setFieldValue("valueType", value)}
                     Setwidth="w-full"
                   />
                   <ErrorMessage
@@ -312,6 +312,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               </Form>
             )}
           </Formik>
+          
         </div>
         <div className="w-[60%]">
           <CommonListV3<ICategoryAttribute>
@@ -321,7 +322,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               { key: "name", label: "Name" },
               { key: "markForVariant", label: "Variant"
                 ,render: (type: boolean) => {
-                  return type?( <span>Available</span>):(<span className="text-red-700">Not Available</span>)
+                  return type?( <span>Available</span>):(<span className="text-red-700  ">Not Available</span>)
                 }
                },
               { key: "sortOrder", label: "Order" },
