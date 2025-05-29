@@ -49,7 +49,7 @@ if(open){
             title: "Category",
             menus: [
                 { name: "Categories", link: '/category', Icon: TbCategoryPlus, submenu: [
-                    // { name: "Categories", link: '/category', Icon: AiOutlineUser },
+                     { name: "Blogs", link: '/blogs', Icon: AiOutlineUser },
                     // { name: "Attributes", link: '/presaleevent', Icon: AiOutlineUser },
   
                 ]},
