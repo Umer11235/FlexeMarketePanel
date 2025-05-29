@@ -67,7 +67,7 @@
     title: Yup.string().required('Title is required'),
     slug: Yup.string().required('Slug is required'),
     metaTitle: Yup.string().required('Meta title is required'),
-    summary: Yup.string().required('Summary is required'),
+    // summary: Yup.string().required('Summary is required'),
     content: Yup.string().required('Content is required'),
     authorName: Yup.string().required('Author name is required'),
   });
@@ -168,11 +168,13 @@
 
  
   const handleEdit = (id: string, blogData: any) => {
+    setSelectedId(id);
     setIsEditing(true);
+
     setInitialValues({
       ...blogData,
       publishedAt: blogData.publishedAt ? new Date(blogData.publishedAt) : null,
-      category: blogData.category || '', // Changed to handle single string
+      category: blogData.category || '', 
       tags: blogData.tags || [],
     });
   };
@@ -185,18 +187,43 @@
     };
 
     const handleSubmit = async (values: IBlogFormValues, { resetForm }: { resetForm: () => void }) => {
+
       setLoading(true);
-      
       try {
         const payload = {
+          
           ...values,
           publishedAt: values.isPublished ? (values.publishedAt || new Date()).toISOString() : null
         };
 
-        if (isEditing && values.id) {
-          const response = await apiService.putData("/blogs", payload, {}, true);
+        if (isEditing) {
+          const response = await apiService.putData(`/blogs/`+selectedId, payload, {}, true);
           if (response.isSuccess) {
             toast.success("Blog updated successfully");
+            setInitialValues({
+              title: '',
+              slug: '',
+              guid: '', 
+              metaTitle: '',  
+              metaDescription: '',
+              summary: '',
+              content: '',
+              alterText: '',
+              internalKeywords: '', 
+              imageUrl: '', 
+              imageTitle: '', 
+              imageDescription: '',
+              imageCaption: '', 
+              category: '',
+              tags: [],
+              focusKeyword: '', 
+                authorName: 'FlexeMarket',
+              authorImage: '',
+              isPublished: false,
+              publishedAt: null,
+              views: 0,
+              likes: 0,
+            })
             resetForm();
             setIsEditing(false);
             fetchData();
@@ -280,7 +307,7 @@
                       <ErrorMessage name="slug" component="div" className="text-red-600 text-sm mt-1" />
                     </div>
 
-                    <div>
+                    {/* <div>
                       <label htmlFor="summary" className="block font-medium mb-1">Summary*</label>
                       <Field
                         as="textarea"
@@ -291,7 +318,7 @@
                         className="border rounded w-full p-2"
                       />
                       <ErrorMessage name="summary" component="div" className="text-red-600 text-sm mt-1" />
-                    </div>
+                    </div> */}
                   </div>
 
                   {/* SEO Settings */}
@@ -348,32 +375,69 @@
                     </div>
                   </div>
 
-                  {/* Featured Image */}
-                  <div className="space-y-4 p-4 border rounded-lg">
-                    <h3 className="font-semibold text-lg">Featured Image</h3>
-                    
-                    <div>
-                      <label htmlFor="imageUrl" className="block font-medium mb-1">Image URL</label>
-                      <Field
-                        type="text"
-                        id="imageUrl"
-                        name="imageUrl"
-                        placeholder="https://example.com/image.jpg"
-                        className="border rounded w-full p-2"
-                      />
-                    </div>
+                
 
-                    <div>
-                      <label htmlFor="alterText" className="block font-medium mb-1">Alt Text</label>
-                      <Field
-                        type="text"
-                        id="alterText"
-                        name="alterText"
-                        placeholder="Description for screen readers and SEO"
-                        className="border rounded w-full p-2"
-                      />
-                    </div>
+                {/* Featured Image */}
+                <div className="space-y-4 p-4 border rounded-lg">
+                  <h3 className="font-semibold text-lg">Featured Image</h3>
+                  
+                  <div>
+                    <label htmlFor="imageUrl" className="block font-medium mb-1">Image URL</label>
+                    <Field
+                      type="text"
+                      id="imageUrl"
+                      name="imageUrl"
+                      placeholder="https://example.com/image.jpg"
+                      className="border rounded w-full p-2"
+                    />
                   </div>
+
+                  <div>
+                    <label htmlFor="alterText" className="block font-medium mb-1">Alt Text</label>
+                    <Field
+                      type="text"
+                      id="alterText"
+                      name="alterText"
+                      placeholder="Description for screen readers and SEO"
+                      className="border rounded w-full p-2"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="imageTitle" className="block font-medium mb-1">Image Title</label>
+                    <Field
+                      type="text"
+                      id="imageTitle"
+                      name="imageTitle"
+                      placeholder="Title attribute for the image"
+                      className="border rounded w-full p-2"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="imageCaption" className="block font-medium mb-1">Image Caption</label>
+                    <Field
+                      type="text"
+                      id="imageCaption"
+                      name="imageCaption"
+                      placeholder="Caption to display below the image"
+                      className="border rounded w-full p-2"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="imageDescription" className="block font-medium mb-1">Image Description</label>
+                    <Field
+                      as="textarea"
+                      id="imageDescription"
+                      name="imageDescription"
+                      placeholder="Detailed description of the image"
+                      className="border rounded w-full p-2"
+                    />
+                  </div>
+                </div>
+
+
 
                  {/* Organization */}
       <div className="space-y-4 p-4 border rounded-lg">
@@ -460,6 +524,7 @@
                     className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 w-full font-medium"
                   >
                     {loading ? "Processing..." : isEditing ? "Update Blog Post" : "Create Blog Post"}
+
                   </button>
                 </Form>
               )}
@@ -512,6 +577,16 @@
                     <span className="text-center block">{likes}</span>
                   )
                 },
+                { 
+                  key: "publishedAt", 
+                  label: "Published At",
+                  render: (publishedAt: string) => (
+                    <span className="text-sm text-gray-500">
+                      {publishedAt ? new Date(publishedAt).toLocaleDateString() : 'Not Published'}
+                    </span>
+                  )
+                }
+               
               ]}
               onEdit={handleEdit}
               onDelete={handleDeleteConfirmation}

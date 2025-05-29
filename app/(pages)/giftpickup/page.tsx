@@ -105,7 +105,6 @@ id: "",
 
   // Form submission handler
   const handleSubmit = async (values: User,{ resetForm }: { resetForm: () => void }) => {
-    alert();
     setLoading(true);
 
 
