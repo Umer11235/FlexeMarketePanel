@@ -571,6 +571,21 @@ const Page = () => {
                   </div>
                 )
               },
+              {
+                key: "slug", 
+                label: "Slug",
+                render: (slug: string) => (
+                  <span className="text-gray-600">{slug}</span>
+                )
+              },
+              { 
+                key: "metaTitle", 
+                label: "Meta Title" 
+              },
+              { 
+                key: "guid", 
+                label: "GUID"
+              },
               { 
                 key: "imageUrl", 
                 label: "Image",
