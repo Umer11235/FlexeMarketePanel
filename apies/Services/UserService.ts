@@ -148,7 +148,7 @@ if(response.data?.isSuccess){
 },
 
 
-  postData: async (api: string, payload: Record<string, any> = {}, customHeaders: Record<string, string> = {} , useAuth: boolean = false) => {
+  postData: async (api: string, payload: Record<string, any> = {}, customHeaders: Record<string, string> = {} , useAuth: boolean = false , expectPlainText = false) => {
     try {
       const headers: Record<string, string> = {...customHeaders};
       if (useAuth) {
@@ -156,6 +156,10 @@ if(response.data?.isSuccess){
       }
 
       const response = await apiClient.post(api, payload, { headers });
+
+  if (expectPlainText) {
+      return response.data;
+    }
 
       if (response.data?.isSuccess) {
         return response.data;
