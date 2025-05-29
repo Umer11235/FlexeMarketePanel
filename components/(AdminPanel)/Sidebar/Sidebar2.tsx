@@ -11,6 +11,7 @@ import { TbCategoryPlus } from "react-icons/tb";
 
 import { UserCheck } from "lucide-react";
 import { useTheme } from "@/components/ThemContext/theme";
+import { FaBlog } from "react-icons/fa";
 
 // interface SideBar2Props {
 //     theme: "light" | "dark";
@@ -49,7 +50,7 @@ if(open){
             title: "Category",
             menus: [
                 { name: "Categories", link: '/category', Icon: TbCategoryPlus, submenu: [
-                     { name: "Blogs", link: '/blogs', Icon: AiOutlineUser },
+                    // { name: "Categories", link: '/category', Icon: AiOutlineUser },
                     // { name: "Attributes", link: '/presaleevent', Icon: AiOutlineUser },
   
                 ]},
@@ -62,6 +63,7 @@ if(open){
             menus: [
                 // { name: "Home", link: '/dashboard', Icon: MdOutlineDashboard },
                 { name: "Users", link: '/users', Icon: TiMediaEject },
+                 { name: "Blogs", link: '/blogs', Icon: FaBlog },
                 { name: "Product", link: '/products', Icon: UserCheck },
                 // { name: "Affilliations", link: '/requesteduser', Icon: TiMediaEject },
                 { name: "Orders", link: '/orders', Icon: FiMessageSquare },
