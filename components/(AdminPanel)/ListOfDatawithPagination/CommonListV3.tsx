@@ -8,7 +8,7 @@ import { CommonListPropsV2 } from "./Interfaces/IList";
 import SearchFilters from "@/components/searchFilter/SearchFilter";
 
 
-const CommonListV3 = <T extends { id: string; type?: number }>({
+const CommonListV3 = <T extends { id: string; type?: number ,blogId?:string }>({
   apiEndpoint,
   columns,
   sharedList,
@@ -208,7 +208,7 @@ const CommonListV3 = <T extends { id: string; type?: number }>({
 
                   {onEdit && (
                     <button
-                      onClick={() => onEdit(item.id, item)}
+                      onClick={() => onEdit(item.blogId ?? item.id, item)}
                       className="text-blue-500 hover:text-blue-700"
                     >
                       <Icons icon="edit" />
@@ -217,7 +217,7 @@ const CommonListV3 = <T extends { id: string; type?: number }>({
 
                   {onDelete && (
                     <button
-                      onClick={() => onDelete(item.id)}
+                      onClick={() => onDelete(item.id??item.blogId)}
                       className="text-red-500 hover:text-red-700 ml-2"
                     >
                       <Icons icon="delete" />
