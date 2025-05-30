@@ -235,6 +235,31 @@ const Page = () => {
         if (response.isSuccess) {
           toast.success("Blog updated successfully");
           resetForm();
+          setInitialValues({
+            title: '',
+            slug: '',
+            guid: '',
+            metaTitle: '',
+            metaDescription: '',
+            summary: '',
+            content: '',
+            alterText: '',
+            internalKeywords: '',
+            imageUrl: '',
+            imageFile: null,
+            imageTitle: '',
+            imageDescription: '',
+            imageCaption: '',
+            category: '',
+            tags: [],
+            focusKeyword: '',
+            authorName: 'FlexeMarket',
+            authorImage: '',
+            isPublished: false,
+            publishedAt: null,
+            views: 0,
+            likes: 0,
+          });
           setIsEditing(false);
           setImagePreview(null);
           fetchData();
