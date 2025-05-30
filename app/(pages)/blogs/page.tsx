@@ -564,7 +564,7 @@ const Page = () => {
                 label: "Title",
                 render: (title: string, item: Blog) => (
                   <div className="flex flex-col">
-                    <Link href={`/blog/${item.slug}`} target="_blank" className="text-blue-600 hover:underline font-medium">
+                    <Link href={`https://www.flexemarket.com/blogs/${item.slug}`} target="_blank" className="text-blue-600 hover:underline font-medium">
                       {title}
                     </Link>
                     <span className="text-sm text-gray-500">{item.metaTitle}</span>
