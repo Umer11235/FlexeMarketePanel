@@ -55,9 +55,18 @@ const fetchData = async () => {
         });
        
       } else {
+             setIsEditing(false);
+              setInitialValues({
+            type: 0,
+        });
         toast.error("Failed to fetch products");
       }
   } catch (error) {
+
+          setIsEditing(false);
+              setInitialValues({
+            type: 0,
+        });
     console.error("Error fetching products:", error); 
     toast.error("Error fetching products");
   }
