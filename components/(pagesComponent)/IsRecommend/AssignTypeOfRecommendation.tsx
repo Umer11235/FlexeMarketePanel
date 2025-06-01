@@ -45,7 +45,7 @@ useEffect(() => {
 
 const fetchData = async () => {
   try {
-      const response = await apiService.fetchData("https://localhost:7078/api/RecommendedProducts/productId/"+guid,{},true);
+      const response = await apiService.fetchData("RecommendedProducts/productId/"+guid,{},true);
       console.log("Response from fetchData:", response);
       if (response.isSuccess) {
         setIsEditing(true);
@@ -101,7 +101,7 @@ const payload = {
         ProductId: guid,
       };
 
-  const response= await apiService.putData("https://flexemart.com/api/RecommendedProducts", payload);
+  const response= await apiService.putData("RecommendedProducts", payload);
   if (response.isSuccess) {
     toast.success("Values Updated successfully!");
   
@@ -119,7 +119,7 @@ else{
       };
 
 
-      const response= await apiService.postData("https://localhost:7078/api/RecommendedProducts", payload1);
+      const response= await apiService.postData("RecommendedProducts", payload1);
        if (response.isSuccess) {
         toast.success("Values Assigned successfully!");
       
@@ -145,7 +145,7 @@ else{
 
     try {
       if (!selectedId) return;
-     const response= await userService.deleteUser("https://flexemart.com/api/RecommendedProducts/", selectedId);
+     const response= await userService.deleteUser("RecommendedProducts/", selectedId);
      
      if(response.isSuccess){
        setIsEditing(false)
