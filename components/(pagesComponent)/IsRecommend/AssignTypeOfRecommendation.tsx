@@ -26,6 +26,7 @@ const AssignTypeOfRecommendation = ({ isModalOpen, guid,setisModalOpen }: { guid
   const [successMessage, setSuccessMessage] = useState("");
   const [isEditing,setIsEditing]=useState(false)
   const [selectedId,setSelectedId]=useState<string|null>(null)
+  const [recommendId,setRecommendId]=useState<string|null>(null)
 const [isOpen,setIsOpen]=useState(false)
 const [selectedType, setSelectedType] = useState<number>(0);
 
@@ -41,7 +42,7 @@ const [initialValues,setInitialValues]=useState<IRecommendProps>({
 
 useEffect(() => {
   fetchData();
-}, [guid]);
+}, [guid,isEditing]);
 
 const fetchData = async () => {
   try {
@@ -53,6 +54,8 @@ const fetchData = async () => {
           type:response.data.type ,
           id: response.data.id ?? "0",
         });
+
+        setRecommendId(response.data.id ?? "0");
        
       } else {
              setIsEditing(false);
@@ -110,7 +113,7 @@ const payload = {
         ProductId: guid,
       };
 
-  const response= await apiService.putData("RecommendedProducts", payload);
+  const response= await apiService.putData("RecommendedProducts/"+recommendId, payload);
   if (response.isSuccess) {
     toast.success("Values Updated successfully!");
   
