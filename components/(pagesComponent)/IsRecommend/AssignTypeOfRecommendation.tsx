@@ -71,7 +71,6 @@ const fetchData = async () => {
             type: 0,
         });
     console.error("Error fetching products:", error); 
-    toast.error("Error fetching products");
   }
 };
 
