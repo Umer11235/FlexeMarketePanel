@@ -324,7 +324,7 @@ catch (error) {
       onClick={()=>onRecommend(user.id,true)}
       className="text-blue-500 hover:underline">
         <Icons icon="heart" />
-        test
+        Is Recommend?
       </button>
     )
    }               
