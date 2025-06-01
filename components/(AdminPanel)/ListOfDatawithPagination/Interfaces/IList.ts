@@ -46,6 +46,8 @@ export interface Column {
     // token: string;
     onEdit?:(id:string, item:T)=>void;
     onDelete?:(guid:string, id?:string)=>void;
+    onRecommend?:(guid:number ,recomendModal?:boolean)=>void;
+  
     onCancel?:(id:string)=>void;
     onView?:(id:string)=>string;
     isModalOpen?:boolean;

@@ -8,13 +8,14 @@ import { UserListComponentProps } from "./Interfaces/IList";
 import SearchFilters from "@/components/searchFilter/SearchFilter";
 import ClimbingLoader from "react-spinners/ClimbingBoxLoader";
 import Image from "next/image";
+import Dropdown from "../(Fields)/inputs/Dropdown/Dropdown";
 
 
 
 
 const UserListV3 = <T,>({
   columns,itemsPerPage = 10,
-  bgColor,apiEndpoint,apiVersion, Action,deleteApie,onDelete ,onCancel ,onEdit,onView,onItemsPerPageChange ,filterss ,removeListId }:UserListComponentProps<T>) =>
+  bgColor,apiEndpoint,apiVersion, Action,deleteApie,onDelete ,onCancel ,onEdit,onView,onItemsPerPageChange ,onRecommend ,filterss ,removeListId }:UserListComponentProps<T>) =>
      {
   const [users, setUsers] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -222,10 +223,14 @@ catch (error) {
             <th scope="col" className="px-4 py-2">
             {(onView || onEdit || onDelete) && "Actions"}
             {/* {(typeof onView === 'function' || typeof onEdit === 'function' || typeof onDelete === 'function') && "Actions"} */}
-
-
-
             </th>
+<th  scope="col" className="px-4 py-2"> 
+{ onRecommend && (
+  "Deals/Recommend"
+
+)}
+</th>
+
           </tr>
         </thead>
         <tbody>
@@ -272,7 +277,7 @@ catch (error) {
                 </td>
               ))}
 
-              <td className="px-4 py-7 flex gap-3">
+              <td className="px-4 py-7 flex gap-3 text-nowrap min-w-6 max-w-[10rem] overflow-hidden">
 
               {onView&&(   <Link
                     href={onView(user.guid)}
@@ -309,6 +314,22 @@ catch (error) {
                   }
         
               </td>
+
+ <td   className="px-4 py-2 text-nowrap min-w-6 max-w-[10rem] overflow-hidden">
+  {/* {user.guid} */}
+
+   {
+    onRecommend && (
+      <button 
+      onClick={()=>onRecommend(user.id,true)}
+      className="text-blue-500 hover:underline">
+        <Icons icon="heart" />
+        test
+      </button>
+    )
+   }               
+ </td>
+
             </tr>
           ))}
         </tbody>

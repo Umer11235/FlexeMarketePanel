@@ -3,10 +3,11 @@
 import userService, { apiService } from "@/apies/Services/UserService";
 import UserListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/FilterListV3";
 import Popup from "@/components/(AdminPanel)/popup";
+import AssignTypeOfRecommendation from "@/components/(pagesComponent)/IsRecommend/AssignTypeOfRecommendation";
 import ModalForm from "@/components/(pagesComponent)/modalForm";
 import { useAuthRedirect } from "@/utilities/Authentication";
 import { getTypeLabel } from "@/utilities/helpers.ts";
-import { useEffect, useMemo, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 
 
 interface User {
@@ -31,9 +32,12 @@ const Page = () => {
 
 
   const [isPopup, setIsPopup] = useState(false);
+  const [isRecommend, setIsRecommend]=useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isModal, setIsModal] = useState(false);
   const [editInitialValues, setEditInitialValues] = useState({});
+  const [recommendedValues, setRecommended_InitialValues] = useState({});
+  const [selectedProductguid, setSelectedProductGuid] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 const [data, setData] = useState<User[]>([]);
 const [user, setUser] = useState<IUser[]>([]);
@@ -140,6 +144,13 @@ useEffect(() => {
   };
   
 
+  const handleRecommend= (guid:number, IsRecommendModal?:boolean)=>{
+    if (!guid) return;
+   setIsRecommend(true);
+    setRecommended_InitialValues({ guid: guid , type:'' });
+  setSelectedProductGuid(guid);
+  }
+
 
   const onView = (id: string) => {
     return `/product-view/${id}`;
@@ -158,6 +169,7 @@ useEffect(() => {
         confirmText="Delete"
         onConfirm={handleDeleteConfirmed}
       />
+
 
       <h2 className="font-bold pb-4 mb-1">Products</h2>
 
@@ -204,6 +216,7 @@ useEffect(() => {
         onDelete={handleDelete}
         onEdit={handleEdit}
         onView={onView}
+        onRecommend={handleRecommend}
         filterss={[
           {
             title: "Category",
@@ -296,6 +309,13 @@ useEffect(() => {
         title="Update Product"
         withImageUpload={true}
       />
+
+      <AssignTypeOfRecommendation
+        isModalOpen={isRecommend}
+        setisModalOpen={setIsRecommend}
+        guid={selectedProductguid??0}
+     />
+
     </div>
   );
 };
