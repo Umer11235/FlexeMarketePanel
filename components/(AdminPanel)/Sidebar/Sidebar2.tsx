@@ -8,6 +8,8 @@ import { TbReportAnalytics } from "react-icons/tb";
 import Link from "next/link";
 import { TiMediaEject, TiMediaStopOutline } from "react-icons/ti";  
 import { TbCategoryPlus } from "react-icons/tb";
+import { MdAttachMoney } from "react-icons/md";
+
 
 import { UserCheck } from "lucide-react";
 import { useTheme } from "@/components/ThemContext/theme";
@@ -64,6 +66,7 @@ if(open){
                 // { name: "Home", link: '/dashboard', Icon: MdOutlineDashboard },
                 { name: "Users", link: '/users', Icon: TiMediaEject },
                  { name: "Blogs", link: '/blogs', Icon: FaBlog },
+                 { name: "Tax Reports", link: '/taxcalculation', Icon: MdAttachMoney   },
                 { name: "Product", link: '/products', Icon: UserCheck },
                 // { name: "Affilliations", link: '/requesteduser', Icon: TiMediaEject },
                 { name: "Orders", link: '/orders', Icon: FiMessageSquare },
