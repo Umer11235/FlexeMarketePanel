@@ -280,8 +280,8 @@ const Page = ({ params }: { params: { id: string } }) => {
                     label="Select Type"
                     options={[
                       { value: "1", label: "Dropdown" },
-                      { value: "2", label: "Checkbox" },
-                      { value: "3", label: "Radio Button" },
+                      { value: "2", label: "Radio Button" },
+                      { value: "3", label: "Checkbox" },
                       { value: "4", label: "Textbox" },
                     ]}
                     selectedValue={values.type}
