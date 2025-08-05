@@ -404,7 +404,7 @@ selectedValue={
         )}
       </Formik>
     </div>
-<div className="w-[60%]">
+<div className="w-[60%] h-screen overflow-y-auto">
 
 
 
