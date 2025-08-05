@@ -9,6 +9,8 @@ const Dropdown: React.FC<IDropdownProps> = ({
   onChange,
   Setwidth,
   placeholder = "Select an option",
+  name,
+
 }) => {
   return (
 
@@ -21,6 +23,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
 
     <div className={`${Setwidth || "w-72"}`}>
     <select
+    name={name}
         id="dropdown"
         value={selectedValue}
         onChange={(e) => onChange(e.target.value)}

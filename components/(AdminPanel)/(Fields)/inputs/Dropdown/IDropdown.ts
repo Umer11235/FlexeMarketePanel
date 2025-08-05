@@ -5,4 +5,5 @@ interface IDropdownProps {
     Setwidth?:string
     onChange: (value: string) => void;
     placeholder?: string;
+    name?: string;
   }

@@ -130,6 +130,9 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
 
   
   const handleEdit=(id:string,updatedData:User)=>{
+    // alert(id)
+    console.log(updatedData, "Updated Data Category");
+    
     setOnEditing(true)
     setInitialValues({
       description:updatedData.description,
@@ -137,7 +140,7 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
       type:updatedData.type,
       sort:updatedData.sort,
       id:updatedData.id,
-      parent_id:updatedData.parent_id
+      parent_id:updatedData.parent_id?? undefined,
     })
     setIsEditing(true)
   }
@@ -273,7 +276,7 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
           
                 type="number"
                 id="sort"
-                name="Sort Number"
+                name="sort"
                 placeholder="Sort Number Ex : 1,2,3"
                 className="border rounded w-full p-2"
               />
@@ -368,16 +371,20 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
  {/* Dropdown Field for Categories */}
  <div className="mb-4">
       
+
         <Dropdown
-          label="Select Parent Category"
-          options={data.map((category) => ({
-            value: category.id, // id will be used as the value
-            label: category.name, // name will be displayed
-          }))}
-          selectedValue={values.parent_id} // Assuming 'type' is the value you want to set
-          onChange={(value) => setFieldValue("parent_id", value)} // Set field value to the selected category id
-          Setwidth="w-full"
-        />
+  name="parent_id"
+  label="Select Parent Category"
+  options={data.map((category) => ({
+    value: category.id,
+    label: category.name,
+  }))}
+selectedValue={
+  values.parent_id ? values.parent_id.toString() : ""
+}
+  onChange={(value) => setFieldValue("parent_id", value)}
+  Setwidth="w-full"
+/>
         <ErrorMessage name="type" component="div" className="text-red-600 text-sm mt-1" />
       </div>
        
