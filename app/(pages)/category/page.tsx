@@ -17,6 +17,14 @@ import Icons from "@/utilities/icons/icons";
 import Image from "next/image";
 import CommonListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/CommonListV3";
 
+interface IMedia {
+  id: number;
+  name: string;
+  image: string;
+  category_id: number | null;
+  // ... other media properties
+}
+
 
 interface IUserFormValues {
   id?:string;
@@ -27,6 +35,8 @@ interface IUserFormValues {
   parent_id?: number;
   imageFile?: File | null; 
   previewImage?: string;
+  existingImage?: IMedia | null;
+  
 }
 
 interface User {
@@ -36,7 +46,8 @@ interface User {
   type: number;
   description: string;
   parent_id?: number;
-  images: string[];
+  images: IMedia[];
+  
 }
 
 
@@ -141,85 +152,96 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
       sort:updatedData.sort,
       id:updatedData.id,
       parent_id:updatedData.parent_id?? undefined,
-    })
+      imageFile: null , 
+     previewImage: updatedData.images.length > 0 
+      ? `https://flexemart.com/uploads/${updatedData.images[0].image}`
+      : "",
+    existingImage: updatedData.images.length > 0 
+      ? updatedData.images[0] 
+      : null
+  
+  })
     setIsEditing(true)
   }
 
-  // Form submission handler
-  const handleSubmit = async (values: IUserFormValues ,{ resetForm }: { resetForm: () => void }) => {
-    
-    setLoading(true);
-    setSuccessMessage("");
-    setErrorMessage("");
+ 
 
-    
-    try {
 
-      if(isEditing){
+// Form submission handler
+const handleSubmit = async (values: IUserFormValues, { resetForm }: { resetForm: () => void }) => {
+  setLoading(true);
+  setSuccessMessage("");
+  setErrorMessage("");
 
-        const response = await apiService.putData(
-          "categories", values,{},true
-        );
-     
-                if (response.isSuccess) {
-                  // setIsEditing(false)
-                  
-                  toast.success("Category has been Updated")
-                  handleProductUpdate(response.data); 
-                  resetForm(); 
-                  setIsEditing(false); 
-                  setInitialValues({
-                    name:'',
-                    description:'',
-                    type:1,
-                    sort:0,
-                  })
-                }
-            setSuccessMessage("User updated successfully!");
-      }
-      else{
-        const formData = new FormData();
-    
-        // 2. Append all category data
-        // formData.append('name', values.name);
-        // formData.append('description', values.description); 
-        // formData.append('type', values.type.toString());
-        
-        // if (values.parent_id) {
-        //   formData.append('parent_id', values.parent_id.toString()||"null");
-        // }
-        
-        // 3. Append image file if exists
-        // if (values) {
-        //   formData.append('imageFile', values.imageFile as Blob );
-        // }
+  try {
+    if (isEditing) {
 
-        const response = await apiService.postData(          
-          "categories", values,{
-            // 'Content-Type': 'multipart/form-data'
-          },true
-        );
-
-   
-
-          if (response.isSuccess) {
-            // setSuccessMessage("Product updated successfully!");
-            toast.success("Category has been Added")
-            handleProductUpdate(response.data); 
-            resetForm(); 
-          }
-      setSuccessMessage("User updated successfully!");
-    }
-
-    } catch (err) {
       
-      setErrorMessage( "An error occurred while updating the user.");
-    } 
-    
-    finally {
-      setLoading(false);
+      const response = await apiService.putData(
+        "categories", values, {}, true
+      );
+
+      if (response.isSuccess) {
+        toast.success("Category has been Updated");
+        handleProductUpdate(response.data); 
+        resetForm(); 
+        setIsEditing(false); 
+        setInitialValues({
+          name: '',
+          description: '',
+          type: 1,
+          sort: 0,
+          imageFile: null,
+          previewImage: "",
+        });
+      }
+      setSuccessMessage("Category updated successfully!");
     }
-  };
+    else {
+      const response = await apiService.postData(          
+        "categories", values, {}, true
+      );
+
+      if (response.isSuccess) {
+        console.log(response.data.id, "Response Data Category");
+
+        if (values.imageFile) {
+          try {
+            const imageFormData = new FormData();
+            imageFormData.append('file', values.imageFile);
+            imageFormData.append('category_id', response.data.id);
+
+            const response1 = await apiService.postData(          
+              "/Media/upload-with-category", imageFormData, {
+                'Content-Type': 'multipart/form-data'
+              }, true
+            );
+
+            console.log(response1, "Response Data Category Media");
+          } catch (uploadError) {
+            // console.error("Image upload error:", uploadError);
+            // Continue even if image upload fails
+            // toast.warning("Category created but image upload failed");
+          }
+        }
+
+        toast.success("Category has been Added");
+        handleProductUpdate(response.data); 
+        resetForm();
+      }
+      setSuccessMessage("Category created successfully!");
+    }
+  } catch (err) {
+    console.error("Error:", err);
+    const errorMessage = err instanceof Error ? err.message : "An error occurred while updating the category";
+    setErrorMessage(errorMessage);
+    toast.error(errorMessage);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 
   if (useAuthRedirect()) return null;
 
@@ -304,7 +326,7 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
 
 {/* Image Upload Field */}
 
-{/* <div className="mb-4">
+<div className="mb-4">
   <label htmlFor="imageFile" className="block font-medium">
     Category Image
   </label>
@@ -340,7 +362,7 @@ const [initialValues,setInitialValues]=useState<IUserFormValues>({
       />
     </div>
   )}
-</div> */}
+</div>
 
 
 
