@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef  } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -16,6 +16,9 @@ import Link from "next/link";
 import Icons from "@/utilities/icons/icons";
 import Image from "next/image";
 import CommonListV3 from "@/components/(AdminPanel)/ListOfDatawithPagination/CommonListV3";
+
+
+
 
 interface IMedia {
   id: number;
@@ -53,8 +56,8 @@ interface User {
 
 
 const Page =  () => {
-
-  
+//to remove the default value or name from input field
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -193,6 +196,8 @@ const handleSubmit = async (values: IUserFormValues, { resetForm }: { resetForm:
           sort: 0,
           imageFile: null,
           previewImage: "",
+          existingImage: null,
+          parent_id: undefined,
         });
       }
       setSuccessMessage("Category updated successfully!");
@@ -216,15 +221,24 @@ const handleSubmit = async (values: IUserFormValues, { resetForm }: { resetForm:
                 'Content-Type': 'multipart/form-data'
               }, true
             );
+            
+              
 
             console.log(response1, "Response Data Category Media");
           } catch (uploadError) {
+            resetForm();
             // console.error("Image upload error:", uploadError);
             // Continue even if image upload fails
             // toast.warning("Category created but image upload failed");
           }
         }
 
+ //to remove image default value or name from input field
+// Reset the file input value to clear the selected file
+  if (fileInputRef.current) {
+    fileInputRef.current.value = '';
+  }
+  
         toast.success("Category has been Added");
         handleProductUpdate(response.data); 
         resetForm();
@@ -334,6 +348,7 @@ const handleSubmit = async (values: IUserFormValues, { resetForm }: { resetForm:
     type="file"
     id="imageFile"
     name="imageFile"
+      ref={fileInputRef} // <-- attach ref here
     accept="image/*"
     onChange={(e) => {
       if (e.currentTarget.files && e.currentTarget.files[0]) {
