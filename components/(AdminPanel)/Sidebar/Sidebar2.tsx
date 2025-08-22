@@ -68,6 +68,7 @@ if(open){
                  { name: "Blogs", link: '/blogs', Icon: FaBlog },
                  { name: "Tax Reports", link: '/taxcalculation', Icon: MdAttachMoney   },
                 { name: "Product", link: '/products', Icon: UserCheck },
+                { name: "Update Bulk Products", link: '/bulk_product', Icon: UserCheck },
                 // { name: "Affilliations", link: '/requesteduser', Icon: TiMediaEject },
                 { name: "Orders", link: '/orders', Icon: FiMessageSquare },
                  { name: "Promotion Zip", link: '/promotionZip', Icon: MdOutlineDashboard },
