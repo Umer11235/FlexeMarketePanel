@@ -194,7 +194,7 @@ const UserListV4 = <T,>({
         try {
             setLoading(true);
             const response = await apiService.postData(
-                `/product/bulk-update`,
+                `api/product/bulk-updatev2`,
                 updatedItemsArray
             );
             console.log("Bulk update successful:", response);
