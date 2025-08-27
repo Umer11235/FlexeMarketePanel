@@ -299,20 +299,12 @@ const UserListV4 = <T,>({
                                                 <span>No Image</span>
                                             )
                                         ) : (selectedRows.includes(user.guid) && column.key !== 'images') ? (
-                                             column.key === 'description' ? (
-                                                <textarea
-                                                    value={editedItems[user.guid]?.[column.key] !== undefined ? editedItems[user.guid]?.[column.key] : stripHtmlTags(user[column.key]?.toString() || "")}
-                                                    onChange={(e) => handleInputChange(user.guid, column.key.toString(), e.target.value)}
-                                                    className="w-full border rounded-lg px-2 py-1 h-20" // Height bhi set kar di hai
-                                                />
-                                             ) : (
-                                                <input
-                                                    type="text"
-                                                    value={editedItems[user.guid]?.[column.key] !== undefined ? editedItems[user.guid]?.[column.key] : user[column.key]?.toString() || ""}
-                                                    onChange={(e) => handleInputChange(user.guid, column.key.toString(), e.target.value)}
-                                                    className="w-full border rounded-lg px-2 py-1"
-                                                />
-                                             )
+                                            <input
+                                                type="text"
+                                                value={editedItems[user.guid]?.[column.key] !== undefined ? editedItems[user.guid]?.[column.key] : stripHtmlTags(user[column.key]?.toString() || "")}
+                                                onChange={(e) => handleInputChange(user.guid, column.key.toString(), e.target.value)}
+                                                className="w-full border rounded-lg px-2 py-1"
+                                            />
                                         ) : (
                                             column.key === "description" ? (
                                                 <span dangerouslySetInnerHTML={{ __html: stripHtmlTags(user[column.key]?.toString() || "") }} />

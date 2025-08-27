@@ -137,20 +137,43 @@ const UserListV4 = <T,>({
         fetchUsers(currentPage);
     };
 
+    const handleEditRow = (guid: string, user: any) => {
+        setEditableRowId(guid);
+        setEditedItems(prev => ({ ...prev, [guid]: { ...user } }));
+    };
+
+    const handleSaveRow = (guid: string) => {
+        const updatedItem = editedItems[guid];
+        if (updatedItem) {
+            console.log(`Saving row ${guid} with data:`, updatedItem);
+            if (onSave) {
+                onSave(guid, updatedItem);
+            }
+            setEditableRowId(null);
+            setEditedItems(prev => {
+                const newItems = { ...prev };
+                delete newItems[guid];
+                return newItems;
+            });
+        }
+    };
+
+    const handleCancelEdit = () => {
+        setEditableRowId(null);
+        setEditedItems({});
+    };
+
     const handleInputChange = (guid: string, key: string, value: any) => {
-        // Agar key 'description' hai, toh HTML tags remove kar do
-        const cleanedValue = key === 'description' ? stripHtmlTags(value) : value;
         setEditedItems(prev => ({
             ...prev,
             [guid]: {
                 ...prev[guid],
-                [key]: cleanedValue
+                [key]: value
             }
         }));
     };
 
-    // Double-click par row select/unselect karne ke liye function
-    const handleDoubleClickRow = (guid: string) => {
+    const handleSelectRow = (guid: string) => {
         setSelectedRows(prev =>
             prev.includes(guid) ? prev.filter(id => id !== guid) : [...prev, guid]
         );
@@ -271,14 +294,14 @@ const UserListV4 = <T,>({
                         {filteredUsers.map((user, index) => (
                             <tr
                                 key={user.guid || index}
-                                onDoubleClick={() => handleDoubleClickRow(user.guid)}
+                                onDoubleClick={() => handleEditRow(user.guid, user)}
                                 className="bg-white border-b text-sm dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                             >
                                 <td className="px-4 py-2">
                                     <input
                                         type="checkbox"
                                         checked={selectedRows.includes(user.guid)}
-                                        onChange={() => handleDoubleClickRow(user.guid)} // Using the same function for click
+                                        onChange={() => handleSelectRow(user.guid)}
                                     />
                                 </td>
                                 {columns.map((column) => (
@@ -298,21 +321,13 @@ const UserListV4 = <T,>({
                                             ) : (
                                                 <span>No Image</span>
                                             )
-                                        ) : (selectedRows.includes(user.guid) && column.key !== 'images') ? (
-                                             column.key === 'description' ? (
-                                                <textarea
-                                                    value={editedItems[user.guid]?.[column.key] !== undefined ? editedItems[user.guid]?.[column.key] : stripHtmlTags(user[column.key]?.toString() || "")}
-                                                    onChange={(e) => handleInputChange(user.guid, column.key.toString(), e.target.value)}
-                                                    className="w-full border rounded-lg px-2 py-1 h-20" // Height bhi set kar di hai
-                                                />
-                                             ) : (
-                                                <input
-                                                    type="text"
-                                                    value={editedItems[user.guid]?.[column.key] !== undefined ? editedItems[user.guid]?.[column.key] : user[column.key]?.toString() || ""}
-                                                    onChange={(e) => handleInputChange(user.guid, column.key.toString(), e.target.value)}
-                                                    className="w-full border rounded-lg px-2 py-1"
-                                                />
-                                             )
+                                        ) : (editableRowId === user.guid || selectedRows.includes(user.guid)) ? (
+                                            <input
+                                                type="text"
+                                                value={editedItems[user.guid]?.[column.key] || user[column.key]?.toString()}
+                                                onChange={(e) => handleInputChange(user.guid, column.key.toString(), e.target.value)}
+                                                className="w-full border rounded-lg px-2 py-1"
+                                            />
                                         ) : (
                                             column.key === "description" ? (
                                                 <span dangerouslySetInnerHTML={{ __html: stripHtmlTags(user[column.key]?.toString() || "") }} />
@@ -326,30 +341,41 @@ const UserListV4 = <T,>({
                                     </td>
                                 ))}
                                 <td className="px-4 py-7 flex gap-3 text-nowrap min-w-6 max-w-[10rem] ">
-                                    <>
-                                        {onView && (
-                                            <Link
-                                                href={onView(user.guid)}
-                                                className="text-blue-500 hover:underline">
-                                                <Icons icon="link" />
-                                            </Link>
-                                        )}
-                                        {onEdit && (
-                                            <button onClick={() => handleDoubleClickRow(user.guid)}>
-                                                <Icons icon="edit" />
+                                    {(editableRowId === user.guid || selectedRows.includes(user.guid)) ? (
+                                        <>
+                                            <button onClick={() => handleSaveRow(user.guid)}>
+                                                <Icons icon="Save" />save
                                             </button>
-                                        )}
-                                        {onDelete && (
-                                            <button onClick={() => onDelete(user.guid, user.id)}>
-                                                <Icons icon="delete" />
+                                            <button onClick={handleCancelEdit}>
+                                                <Icons icon="Cancel" />cancel
                                             </button>
-                                        )}
-                                        {onCancel && (
-                                            <button onClick={() => onCancel(user.guid)}>
-                                                <Icons icon="delete" />
-                                            </button>
-                                        )}
-                                    </>
+                                        </>
+                                    ) : (
+                                        <>
+                                            {onView && (
+                                                <Link
+                                                    href={onView(user.guid)}
+                                                    className="text-blue-500 hover:underline">
+                                                    <Icons icon="link" />
+                                                </Link>
+                                            )}
+                                            {onEdit && (
+                                                <button onClick={() => handleEditRow(user.guid, user)}>
+                                                    <Icons icon="edit" />
+                                                </button>
+                                            )}
+                                            {onDelete && (
+                                                <button onClick={() => onDelete(user.guid, user.id)}>
+                                                    <Icons icon="delete" />
+                                                </button>
+                                            )}
+                                            {onCancel && (
+                                                <button onClick={() => onCancel(user.guid)}>
+                                                    <Icons icon="delete" />
+                                                </button>
+                                            )}
+                                        </>
+                                    )}
                                 </td>
                                 <td className="px-4 py-2 text-nowrap min-w-6 max-w-[10rem] overflow-hidden">
                                     {onRecommend && (

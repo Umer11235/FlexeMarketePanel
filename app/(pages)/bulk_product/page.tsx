@@ -160,9 +160,11 @@ useEffect(() => {
 
   const handleSave = async (guid: string, updatedData: any) => {
     try {
-        const response = await apiService.putData(
-            `your-update-api-endpoint/${guid}`,
-            updatedData
+const payload = { items: updatedData , guid  };
+
+        const response = await apiService.postData(
+            `/product/bulk-updatev2`,
+            payload
         );
         console.log("Data saved successfully:", response);
         // Data save hone ke baad aap list ko refresh kar sakte hain ya state update kar sakte hain.
